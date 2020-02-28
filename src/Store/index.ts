@@ -6,7 +6,7 @@ import { loadStorage, saveStorage } from '../utils/localStorage';
 
 const persistentState = loadStorage();
 export const store = createStore(reducers, persistentState, composeWithDevTools(applyMiddleware(thunk)));
-console.log(store.getState());
+
 store.subscribe(() => {
     saveStorage(store.getState());
 });

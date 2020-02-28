@@ -4,12 +4,14 @@ export interface IUser {
     email?: string;
     name?: string;
     roles?: string[];
+    token? : string
 }
 
 const UserModel = Model<IUser>({
     email: null,
     name: null,
     roles: null,
+    token : null
 });
 
 export class User extends UserModel {

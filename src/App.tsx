@@ -16,13 +16,15 @@ class App extends Component<IAppProps, IState> {
     this.state = { isOpen: false };
   }
   render() {
+    console.log(`App Props`);
+    console.log(this.props);
     return <Switch>
       <LayoutRoute
               exact
               path="/login"
               layout={EmptyLayout}
-              component={(props:any) => (
-                <AuthPage {...props} />
+              component={(props:IAppProps) => (
+                <AuthPage {...this.props} />
               )}
             />
             <Redirect to="/login" />

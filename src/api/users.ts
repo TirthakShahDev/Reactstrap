@@ -1,4 +1,5 @@
 import request from '../utils/request'
+import { LoginModel } from 'Models/LoginModel'
 
 export const getUsers = (params: any) =>
   request({
@@ -33,7 +34,7 @@ export const deleteUser = (username: string) =>
     method: 'delete'
   })
 
-export const login = (data: any) =>
+export const login = (data: LoginModel) =>
   request({
     url: '/users/login',
     method: 'post',

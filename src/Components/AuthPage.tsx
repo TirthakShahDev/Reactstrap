@@ -1,7 +1,6 @@
 import AuthForm from "./AuthForm";
 import React from "react";
 import { Card, Col, Row } from "reactstrap";
-
 class AuthPage extends React.Component {
   render() {
     return (

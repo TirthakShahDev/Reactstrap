@@ -2,7 +2,7 @@ import logo200Image from "../assets/img/logo/logo_200.png";
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { IApplicationProps } from "../actions/App.Actions";
-
+import { LoginModel } from "../Models/LoginModel";
 interface ILoginProps extends IApplicationProps {
   usernameLabel: string;
   usernameInputProps: any;
@@ -10,7 +10,7 @@ interface ILoginProps extends IApplicationProps {
   passwordInputProps: any;
 }
 
-interface ILoginState {
+interface ILoginState extends LoginModel {
   Email: string;
   PassWord: string;
 }
@@ -34,8 +34,8 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      Email: "",
-      PassWord: ""
+      Email: "admin",
+      PassWord: "111111"
     };
   }
   handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -47,6 +47,7 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
   }
 
   handleSubmit = () => {
+    this.props.login(this.state)
   };
 
   render() {
