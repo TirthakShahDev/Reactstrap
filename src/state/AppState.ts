@@ -2,6 +2,8 @@ import { connectedRouterRedirect } from 'redux-auth-wrapper/history4/redirect';
 import { Model } from './Helpers';
 import { User } from './User';
 import { Utility } from './Utility';
+import Cookies from 'js-cookie'
+
 export interface IAppState {
     authentication?: User;
     users?: any;
@@ -20,7 +22,13 @@ export class AppState extends AppStateModel {
     public authentication: User;
     public users: any;
     public utility: Utility;
+    public Auth_Token : string = getToken() || '';
 }
+
+const tokenKey = 'AccessToken'
+export const getToken = () => Cookies.get(tokenKey)
+export const setToken = (token: string) => Cookies.set(tokenKey, token)
+export const removeToken = () => Cookies.remove(tokenKey)
 
 export const isAuthenticated = connectedRouterRedirect({
     redirectPath: '/account/login',

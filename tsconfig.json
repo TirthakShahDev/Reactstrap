@@ -44,13 +44,13 @@
   ],
   "types": [
     "node",
-    "webpack",
+    "webpack-env",
     "react",
     "react-dom",
     "reactstrap"
   ],
   "include": [
-    "**/*.ts"
+    "src/**/*.ts"
   ],
   "compileOnSave": true
 }

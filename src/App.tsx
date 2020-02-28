@@ -21,7 +21,7 @@ class App extends Component<IAppProps, IState> {
               exact
               path="/login"
               layout={EmptyLayout}
-              component={props => (
+              component={(props:any) => (
                 <AuthPage {...props} />
               )}
             />

@@ -16,8 +16,10 @@ export class User extends UserModel {
     public static EMAIL = 'email';
     public static NAME = 'name';
     public static ROLES = 'roles';
+    public static TOKEN = 'token'
 
     public email: string;
     public name: string;
     public roles: string[];
+    public token: string;
 }

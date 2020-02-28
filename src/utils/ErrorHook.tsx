@@ -10,7 +10,8 @@ export class ErrorHook extends React.PureComponent<{}, initialState> {
     }
 
     static getDerivedStateFromError(error: any) {
-        console.log(error);
+        // Log errros from Services or store in State etc..
+        console.error(error);
         return { hasError: true };
     }
 
