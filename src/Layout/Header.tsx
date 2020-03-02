@@ -1,7 +1,6 @@
 import Avatar from '../Components/Avatar';
 import { UserCard } from '../Components/Card';
 import Notifications from '../Components/Notifications';
-import SearchInput from '../Components/SearchInput';
 import { notificationsData } from '../utils/NotificationsData';
 import withBadge from '../hocs/withBadge';
 import React from 'react';
@@ -82,10 +81,6 @@ class Header extends React.Component {
             <MdClearAll size={25} />
           </Button>
         </Nav>
-        <Nav navbar>
-          <SearchInput />
-        </Nav>
-
         <Nav navbar className={bem.e('nav-right')}>
           <NavItem className="d-inline-flex">
             <NavLink id="Popover1" className="position-relative">
