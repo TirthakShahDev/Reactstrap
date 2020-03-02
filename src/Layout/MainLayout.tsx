@@ -1,6 +1,6 @@
 import { Content, Footer, Sidebar } from "../Layout";
 import React from "react";
-// import { Header } from "./Header";
+import Header from "./Header";
 interface IMainLayoutProps {
   breakpoint: string;
   selected: [];
@@ -86,7 +86,7 @@ class MainLayout extends React.Component<IMainLayoutProps, IMainLayoutState> {
       <main className="cr-app bg-light">
         <Sidebar />
         <Content fluid onClick={this.handleContentClick}>
-          {/* <Header /> */}
+          <Header />
           {children}
           <Footer />
         </Content>
