@@ -2,8 +2,11 @@ import { IAppAction, ActionType } from './Helpers';
 import { match } from 'react-router';
 import { User } from '../state/User';
 import { IErrorLog } from '../state/ErrorLog';
+import { LoginModel } from 'Models/LoginModel';
+import { login as LoginUser } from "../api/users";
 export interface IApplicationProps {
-    login: (data: any) => IAppAction;
+    loginAsync :(loginModel: any) => IAppAction;
+    login: (loginModel: any) => IAppAction;
     logout: () => IAppAction;
     addError: (data: any) => IAppAction;
     match: match<any>;
@@ -16,8 +19,16 @@ export interface IApplicationProps {
     sidebarOpen: boolean;
 }
 
-export const login = (data: any): IAppAction => {
-    console.log(data);
+export const loginAsync = (loginModel: LoginModel) => {
+    return function(dispatch : any) {
+        return LoginUser(loginModel).then(({ data }) => {
+            
+            dispatch(login(data));
+          }).catch(m => console.log(m)).finally();
+    }
+};
+
+export const login = (data : any): IAppAction => {
     return { type: ActionType.LOGIN_REQUEST, payload: data };
 };
 

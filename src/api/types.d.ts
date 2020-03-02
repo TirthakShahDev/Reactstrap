@@ -54,3 +54,9 @@ export interface permission
   CanUpdate : boolean
   CanExport : boolean
 }
+
+export interface LoginResponse
+{
+  accessToken : string,
+  permissions : permission[]
+}

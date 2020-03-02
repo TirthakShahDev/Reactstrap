@@ -11,7 +11,7 @@ service.interceptors.request.use(
     // Add X-Access-Token header to every request, you can add other custom headers here
     const state = store.getState();
 
-    if (state.authentication.token) {
+    if (state.authentication && state.authentication.token) {
       config.headers["X-Access-Token"] = state.authentication.token;
     }
     return config;
@@ -38,6 +38,8 @@ service.interceptors.response.use(
     }
   },
   error => {
+    console.error(error);
+    
     switch (error.response.status) {
       case 403: // Authorization Failed Response can add other status codes here to manage error Logging
       //TO DO  

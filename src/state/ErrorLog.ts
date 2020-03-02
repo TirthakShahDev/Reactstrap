@@ -1,5 +1,4 @@
 import { Model } from "./Helpers";
-import * as _ from "lodash";
 
 export interface IErrorLog {
   err: Error;

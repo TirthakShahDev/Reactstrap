@@ -1,4 +1,5 @@
 import { Model } from './Helpers';
+import { permission } from 'api/types';
 
 export interface IUser {
     email?: string;
@@ -24,4 +25,5 @@ export class User extends UserModel {
     public name: string;
     public roles: string[];
     public token: string;
+    public permissions: permission[];
 }
