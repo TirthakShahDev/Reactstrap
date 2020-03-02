@@ -31,9 +31,9 @@ export const setToken = (token: string) => Cookies.set(tokenKey, token)
 export const removeToken = () => Cookies.remove(tokenKey)
 
 export const isAuthenticated = connectedRouterRedirect({
-    redirectPath: '/account/login',
+    redirectPath: '/login',
     authenticatedSelector: (state: AppState) => {
-        if (state.authentication == null) {
+        if (state.authentication == null || state.authentication.token === null || state.authentication.token === '') {
             return false;
         }
         return true;

@@ -10,16 +10,15 @@ import AuthPage from "./Components/AuthPage";
 import { IApplicationProps } from "./actions/App.Actions";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
-import './styles/reduction.scss';
+import "./styles/reduction.scss";
 
-const DashboardPage = React.lazy(() => import('./pages/DashboardPage'));
+const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
+const NotFound = React.lazy(() => import("./pages/NotFoundPage"));
 
 interface IAppProps extends IApplicationProps {
   breakpoint: string;
 }
-interface IState {
-  
-}
+interface IState {}
 class App extends Component<IAppProps, IState> {
   constructor(props: IAppProps) {
     super(props);
@@ -34,12 +33,15 @@ class App extends Component<IAppProps, IState> {
           layout={EmptyLayout}
           component={(props: IAppProps) => <AuthPage {...this.props} />}
         />
-        <MainLayout breakpoint={this.props.breakpoint} selected ={null}>
+        <MainLayout breakpoint={this.props.breakpoint} selected={null}>
           <React.Suspense fallback={<PageSpinner />}>
-          <Route exact path="/" component={DashboardPage} />
+            <Route exact path="/" component={DashboardPage} />
           </React.Suspense>
         </MainLayout>
         <Redirect to="/login" />
+        <EmptyLayout>
+          <Route path="*" component={NotFound} />
+        </EmptyLayout>
       </Switch>
     );
   }
@@ -77,7 +79,8 @@ const query = ({ width }) => {
 };
 
 export default withRouter(
-  connect(mapStateToProps, mapDispatchtoProps)(
-    componentQueries(query)(App as any)
-  ) as any
+  connect(
+    mapStateToProps,
+    mapDispatchtoProps
+  )(componentQueries(query)(App as any)) as any
 );

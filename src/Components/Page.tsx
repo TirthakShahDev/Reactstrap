@@ -10,11 +10,11 @@ import Typography from './Typography';
 const bem = bn.create('page');
 
 const Page = ({
-  title,
+  title ,
   breadcrumbs,
-  tag: Tag,
+  tag: Tag = null,
   className,
-  children,
+  children = null,
   ...restProps
 }) => {
   const classes = bem.b('px-3', className);

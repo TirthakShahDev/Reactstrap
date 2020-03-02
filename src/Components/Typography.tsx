@@ -20,7 +20,7 @@ const tagMap = {
 
 const types = Object.keys(tagMap);
 
-const Typography = ({ tag: Tag, className, type, ...restProps }) => {
+const Typography = ({ tag: Tag = null, className, type, ...restProps }) => {
   const classes = classNames({ [type]: !!type }, className);
   let TypoComp;
 
