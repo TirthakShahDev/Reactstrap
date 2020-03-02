@@ -13,6 +13,7 @@ import componentQueries from "react-component-queries";
 import "./styles/reduction.scss";
 
 const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
+const ArticlePage = React.lazy(() => import("./pages/ArticlePage"));
 const NotFound = React.lazy(() => import("./pages/NotFoundPage"));
 
 interface IAppProps extends IApplicationProps {
@@ -36,6 +37,7 @@ class App extends Component<IAppProps, IState> {
         <MainLayout breakpoint={this.props.breakpoint} selected={null}>
           <React.Suspense fallback={<PageSpinner />}>
             <Route exact path="/" component={DashboardPage} />
+            <Route exact path="/Articles" component={ArticlePage} />
           </React.Suspense>
         </MainLayout>
         <Redirect to="/login" />
