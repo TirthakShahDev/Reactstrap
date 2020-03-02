@@ -5,12 +5,13 @@ import {
   TableHeaderColumn,
   SortOrder
 } from "react-bootstrap-table";
+import { Button, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
 import { IApplicationProps } from "../actions/App.Actions";
 import { getArticles as GetArticles } from "../api/articles";
 import { IArticleData } from "../api/types";
 import { parseTime, ConvertToTableFilter } from "../utils";
-import { Pagination } from "reactstrap";
-interface IArticleProps extends IApplicationProps {}
+import { FaPencilAlt, FaTrash } from "react-icons/fa";
+interface IArticleProps extends IApplicationProps { }
 
 interface IArticleState {
   articles: IArticleData[];
@@ -35,6 +36,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     this.state = {
       articles: []
     };
+    this.getArticlesasync();
   }
 
   private formatData(
@@ -58,7 +60,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.getArticlesasync();
   }
 
   private async getArticlesasync() {
@@ -66,12 +67,30 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     const { data } = await GetArticles(this.listQuery);
     this.list = data.items;
     this.total = data.total;
-    setTimeout(() => {
-      this.listLoading = false;
-    }, 0.5 * 1000);
     this.setState({ articles: this.list });
   }
+  onClickProductSelected(cell: any, row, rowIndex) {
+    console.log(cell);
+    console.log(row);
+  }
 
+
+  cellButton(cell: any, row: any, formatExtraData: any, rowIndex: number) {
+    return (
+      <div>
+        <Button color="primary" className="btn btn-primary btn-xs"
+          onClick={() =>
+            this.onClickProductSelected(cell, row, rowIndex)}>
+          <FaPencilAlt />
+        </Button>
+        <Button color="danger" className="btn-xs"
+          onClick={() =>
+            this.onClickProductSelected(cell, row, rowIndex)}>
+          <FaTrash />
+        </Button>
+      </div>
+    )
+  }
   render() {
     return (
       <Page
@@ -79,57 +98,75 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
         title="Manage Article"
         breadcrumbs={[{ name: "Article", active: true }]}
       >
-        <BootstrapTable
-          data={this.state.articles}
-          version="4"
-          options={{
-            onSortChange: (
-              sortName: string | number | symbol,
-              sortOrder: SortOrder
-            ) => this.sortChange(sortName, sortOrder),
-            
-          }}
-        >
-          <TableHeaderColumn
-            dataField="id"
-            isKey={true}
-            dataAlign="center"
-            dataSort={true}
-          >
-            Article ID
+        <Row>
+          <Col md="12" sm="12" xs="12">
+            <Card>
+              <CardHeader>
+              </CardHeader>
+              <CardBody>
+                <BootstrapTable
+                  data={this.state.articles}
+                  version="4"
+                  options={{
+                    onSortChange: (
+                      sortName: string | number | symbol,
+                      sortOrder: SortOrder
+                    ) => this.sortChange(sortName, sortOrder),
+
+                  }}
+                  pagination={true}
+                  hover={true}
+                >
+                  <TableHeaderColumn
+                    dataField="id"
+                    isKey={true}
+                    dataAlign="center"
+                    dataSort={true}
+                  >
+                    Article ID
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="timestamp"
-            dataAlign="center"
-            dataSort={true}
-            dataFormat={(cell, row, formatExtraData, rowIndex) =>
-              this.formatData(cell, row, formatExtraData, rowIndex)
-            }
-          >
-            Date
+                  <TableHeaderColumn
+                    dataField="timestamp"
+                    dataAlign="center"
+                    dataSort={true}
+                    dataFormat={(cell, row, formatExtraData, rowIndex) =>
+                      this.formatData(cell, row, formatExtraData, rowIndex)
+                    }
+                  >
+                    Date
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="title"
-            dataAlign="center"
-            dataSort={true}
-          >
-            Title
+                  <TableHeaderColumn
+                    dataField="title"
+                    dataAlign="center"
+                    dataSort={true}
+                  >
+                    Title
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="author"
-            dataAlign="center"
-            dataSort={true}
-          >
-            Author
+                  <TableHeaderColumn
+                    dataField="author"
+                    dataAlign="center"
+                    dataSort={true}
+                  >
+                    Author
           </TableHeaderColumn>
-          <TableHeaderColumn
-            dataField="reviewer"
-            dataAlign="center"
-            dataSort={true}
-          >
-            Reviewer
+                  <TableHeaderColumn
+                    dataField="reviewer"
+                    dataAlign="center"
+                    dataSort={true}
+                  >
+                    Reviewer
           </TableHeaderColumn>
-        </BootstrapTable>
+                  <TableHeaderColumn
+                    dataField='button'
+                    dataFormat={this.cellButton.bind(this)}
+                  >
+                    Actions
+          </TableHeaderColumn>
+                </BootstrapTable>
+              </CardBody>
+            </Card>
+          </Col>
+        </Row>
       </Page>
     );
   }

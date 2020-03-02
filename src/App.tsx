@@ -11,6 +11,7 @@ import { IApplicationProps } from "./actions/App.Actions";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
 import "./styles/reduction.scss";
+import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
 
 const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 const ArticlePage = React.lazy(() => import("./pages/ArticlePage"));
