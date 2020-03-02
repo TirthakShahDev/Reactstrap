@@ -7,6 +7,7 @@ const Footer = () => {
     <Navbar>
       <Nav navbar>
         <NavItem>
+        2020 Reduction theme, source on
         </NavItem>
       </Nav>
     </Navbar>

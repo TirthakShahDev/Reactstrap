@@ -1,17 +1,43 @@
-import { Content, Footer, Sidebar } from '../Layout';
-import React from 'react';
+import { Content, Footer, Sidebar } from "../Layout";
+import React from "react";
+// import { Header } from "./Header";
+interface IMainLayoutProps {
+  breakpoint: string;
+  selected: [];
+}
 
-class MainLayout extends React.Component<{breakpoint}> {
+interface IMainLayoutState {
+  selected: [];
+}
+class MainLayout extends React.Component<IMainLayoutProps, IMainLayoutState> {
   static isSidebarOpen() {
     return document
-      .querySelector('.cr-sidebar')
-      .classList.contains('cr-sidebar--open');
+      .querySelector(".cr-sidebar")
+      .classList.contains("cr-sidebar--open");
   }
 
-  componentWillReceiveProps({ breakpoint }) {
+  constructor(props: IMainLayoutProps) {
+    super(props);
+    this.state = {
+      selected: []
+  }
+  }
+
+  componentDidUpdate({ breakpoint }) {
     if (breakpoint !== this.props.breakpoint) {
       this.checkBreakpoint(breakpoint);
     }
+  }
+  static getDerivedStateFromProps(
+    props: IMainLayoutProps,
+    state: IMainLayoutState
+  ) {
+    if (props.selected !== state.selected) {
+      return {
+        selected: props.selected
+      };
+    }
+    return null;
   }
 
   componentDidMount() {
@@ -19,39 +45,39 @@ class MainLayout extends React.Component<{breakpoint}> {
   }
 
   // close sidebar when
-  handleContentClick = event => {
+  handleContentClick = (event: any) => {
     // close sidebar if sidebar is open and screen size is less than `md`
     if (
       MainLayout.isSidebarOpen() &&
-      (this.props.breakpoint === 'xs' ||
-        this.props.breakpoint === 'sm' ||
-        this.props.breakpoint === 'md')
+      (this.props.breakpoint === "xs" ||
+        this.props.breakpoint === "sm" ||
+        this.props.breakpoint === "md")
     ) {
-      this.openSidebar('close');
+      this.openSidebar("close");
     }
   };
 
-  checkBreakpoint(breakpoint) {
+  checkBreakpoint(breakpoint: any) {
     switch (breakpoint) {
-      case 'xs':
-      case 'sm':
-      case 'md':
-        return this.openSidebar('close');
+      case "xs":
+      case "sm":
+      case "md":
+        return this.openSidebar("close");
 
-      case 'lg':
-      case 'xl':
+      case "lg":
+      case "xl":
       default:
-        return this.openSidebar('open');
+        return this.openSidebar("open");
     }
   }
 
-  openSidebar(openOrClose : any) {
-    if (openOrClose === 'open') {
+  openSidebar(openOrClose: any) {
+    if (openOrClose === "open") {
       return document
-        .querySelector('.cr-sidebar')
-        .classList.add('cr-sidebar--open');
+        .querySelector(".cr-sidebar")
+        .classList.add("cr-sidebar--open");
     }
-    document.querySelector('.cr-sidebar').classList.remove('cr-sidebar--open');
+    document.querySelector(".cr-sidebar").classList.remove("cr-sidebar--open");
   }
 
   render() {

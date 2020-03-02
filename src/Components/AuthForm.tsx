@@ -48,6 +48,7 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
 
   handleSubmit = () => {
     this.props.loginAsync(this.state)
+    this.props.history.push('/');
   };
 
   render() {
