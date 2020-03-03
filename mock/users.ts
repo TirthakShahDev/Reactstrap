@@ -54,11 +54,11 @@ const userList: IUserData[] = [
       },
       {
         Module: 'Article',
-        CanRead: true,
-        CanDelete: true,
-        CanUpdate: true,
-        CanExport: true,
-        CanCreate: true
+        CanRead: false,
+        CanDelete: false,
+        CanUpdate: false,
+        CanExport: false,
+        CanCreate: false
       }
     ]
   },

@@ -5,16 +5,23 @@ import {
   TableHeaderColumn,
   SortOrder
 } from "react-bootstrap-table";
-import { Button, Row, Col, Card, CardHeader, CardBody } from "reactstrap";
+import * as ReactStrap from "reactstrap";
+import confirm from "reactstrap-confirm";
 import { IApplicationProps } from "../actions/App.Actions";
 import { getArticles as GetArticles } from "../api/articles";
 import { IArticleData } from "../api/types";
 import { parseTime, ConvertToTableFilter } from "../utils";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
-interface IArticleProps extends IApplicationProps { }
+import { defaultArticleData } from "../api/articles";
+import _ from "lodash";
+import { Can } from "../abilityConfig/ability-context";
 
+
+interface IArticleProps extends IApplicationProps {}
 interface IArticleState {
   articles: IArticleData[];
+  modal: boolean;
+  articleSelected?: IArticleData;
 }
 
 class ArticlePage extends React.Component<IArticleProps, IArticleState> {
@@ -22,6 +29,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   private list: IArticleData[] = [];
   private total = 0;
   private listLoading = true;
+  private mode: string | "Add" | "Edit";
   private listQuery = {
     page: 1,
     limit: 20,
@@ -34,7 +42,9 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   constructor(props: Readonly<IApplicationProps>) {
     super(props);
     this.state = {
-      articles: []
+      articles: [],
+      modal: false,
+      articleSelected: defaultArticleData
     };
     this.getArticlesasync();
   }
@@ -45,8 +55,39 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     formatExtraData: any,
     rowIndex: number
   ): any {
-    return parseTime(cell);
+    return parseTime(cell, "{y}-{m}-{d}");
   }
+
+  private ResetModalData = () => {
+    this.setState({
+      articleSelected: defaultArticleData
+    });
+  };
+
+  private toggle = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
+  private AddArticle = () => {
+    this.mode = "Add";
+    this.toggle();
+  };
+  private SaveArticle = () => {
+    //Call API to do Server Data Changes
+    this.setState(
+      {
+        articleSelected: Object.assign({}, this.state.articleSelected, {
+          id: _.maxBy(this.state.articles, "id").id
+        })
+      },
+      () => {
+        this.state.articles.push(this.state.articleSelected);
+        this.toggle();
+      }
+    );
+  };
 
   private handleFilter() {
     this.listQuery.page = 1;
@@ -58,10 +99,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     this.handleFilter();
   }
 
-  componentDidMount() {
-    window.scrollTo(0, 0);
-  }
-
   private async getArticlesasync() {
     this.listLoading = true;
     const { data } = await GetArticles(this.listQuery);
@@ -69,27 +106,58 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     this.total = data.total;
     this.setState({ articles: this.list });
   }
-  onClickProductSelected(cell: any, row, rowIndex) {
-    console.log(cell);
-    console.log(row);
+
+  private onClickProductSelected(cell: any, row: any, rowIndex: number) {
+    this.mode = "Edit";
+    this.setState({ articleSelected: Object.assign({}, null) }, () => {
+      this.setState({ articleSelected: Object.assign({}, row) });
+      this.toggle();
+    });
   }
 
+  private async DeleteArticle(cell: any, row: any, rowIndex: number) {
+    let result = await confirm({
+      title: <>Article "{row.title}" Delete</>
+    });
+    if (result) {
+      //Call API to do Server Data Changes
+      let articleList = this.state.articles.filter(m => m.id !== row.id);
+      this.setState({ articles: articleList });
+    }
+  }
 
-  cellButton(cell: any, row: any, formatExtraData: any, rowIndex: number) {
+  private handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
+    const value = evt.target.value;
+    this.setState({
+      articleSelected: Object.assign({}, this.state.articleSelected, {
+        [evt.target.name]: value
+      })
+    });
+  }
+
+  actionButtons(cell: any, row: any, formatExtraData: any, rowIndex: number) {
     return (
       <div>
-        <Button color="primary" className="btn btn-primary btn-xs"
-          onClick={() =>
-            this.onClickProductSelected(cell, row, rowIndex)}>
+        <Can I="CanUpdate" a ="Article">
+        <ReactStrap.Button
+          color="primary"
+          className="btn btn-primary btn-xs"
+          onClick={() => this.onClickProductSelected(cell, row, rowIndex)}
+        >
           <FaPencilAlt />
-        </Button>
-        <Button color="danger" className="btn-xs"
-          onClick={() =>
-            this.onClickProductSelected(cell, row, rowIndex)}>
+        </ReactStrap.Button>
+        </Can>
+        <Can I="CanDelete" a ="Article">
+        <ReactStrap.Button
+          color="danger"
+          className="btn-xs"
+          onClick={() => this.DeleteArticle(cell, row, rowIndex)}
+        >
           <FaTrash />
-        </Button>
+        </ReactStrap.Button>
+        </Can>
       </div>
-    )
+    );
   }
   render() {
     return (
@@ -98,12 +166,20 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
         title="Manage Article"
         breadcrumbs={[{ name: "Article", active: true }]}
       >
-        <Row>
-          <Col md="12" sm="12" xs="12">
-            <Card>
-              <CardHeader>
-              </CardHeader>
-              <CardBody>
+        <ReactStrap.Row>
+          <ReactStrap.Col md="12" sm="12" xs="12">
+            <ReactStrap.Card>
+              <ReactStrap.CardHeader>
+                <Can I="CanCreate" a ="Article">
+                  <ReactStrap.Button
+                    color="primary"
+                    onClick={() => this.AddArticle()}
+                  >
+                    Add Article
+                  </ReactStrap.Button>
+                </Can>
+              </ReactStrap.CardHeader>
+              <ReactStrap.CardBody>
                 <BootstrapTable
                   data={this.state.articles}
                   version="4"
@@ -111,8 +187,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     onSortChange: (
                       sortName: string | number | symbol,
                       sortOrder: SortOrder
-                    ) => this.sortChange(sortName, sortOrder),
-
+                    ) => this.sortChange(sortName, sortOrder)
                   }}
                   pagination={true}
                   hover={true}
@@ -124,7 +199,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     dataSort={true}
                   >
                     Article ID
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="timestamp"
                     dataAlign="center"
@@ -134,39 +209,115 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     }
                   >
                     Date
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="title"
                     dataAlign="center"
                     dataSort={true}
                   >
                     Title
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="author"
                     dataAlign="center"
                     dataSort={true}
                   >
                     Author
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="reviewer"
                     dataAlign="center"
                     dataSort={true}
                   >
                     Reviewer
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                   <TableHeaderColumn
-                    dataField='button'
-                    dataFormat={this.cellButton.bind(this)}
+                    dataField="button"
+                    dataFormat={this.actionButtons.bind(this)}
                   >
                     Actions
-          </TableHeaderColumn>
+                  </TableHeaderColumn>
                 </BootstrapTable>
-              </CardBody>
-            </Card>
-          </Col>
-        </Row>
+              </ReactStrap.CardBody>
+            </ReactStrap.Card>
+          </ReactStrap.Col>
+        </ReactStrap.Row>
+        <ReactStrap.Modal
+          isOpen={this.state.modal}
+          toggle={() => this.toggle()}
+          onClosed={() => this.ResetModalData()}
+        >
+          <ReactStrap.ModalHeader toggle={() => this.toggle()}>
+            {" "}
+            {this.mode === "Add" ? "Add Article" : "Edit Article"}{" "}
+          </ReactStrap.ModalHeader>
+          <ReactStrap.ModalBody>
+            <ReactStrap.Form>
+              <ReactStrap.FormGroup row>
+                <ReactStrap.Label sm={2}>Title</ReactStrap.Label>
+                <ReactStrap.Col sm={10}>
+                  <ReactStrap.Input
+                    type="text"
+                    name="title"
+                    placeholder="Title"
+                    value={this.state.articleSelected.title}
+                    onChange={e => this.handleChange(e)}
+                  />
+                </ReactStrap.Col>
+              </ReactStrap.FormGroup>
+              <ReactStrap.FormGroup row>
+                <ReactStrap.Label sm={2}>Date</ReactStrap.Label>
+                <ReactStrap.Col sm={10}>
+                  <ReactStrap.Input
+                    type="text"
+                    name="timestamp"
+                    value={parseTime(
+                      this.state.articleSelected.timestamp,
+                      "{y}-{m}-{d}"
+                    )}
+                    onChange={e => this.handleChange(e)}
+                    placeholder="Date"
+                  />
+                </ReactStrap.Col>
+              </ReactStrap.FormGroup>
+              <ReactStrap.FormGroup row>
+                <ReactStrap.Label sm={2}>Author</ReactStrap.Label>
+                <ReactStrap.Col sm={10}>
+                  <ReactStrap.Input
+                    type="text"
+                    name="author"
+                    placeholder="Author"
+                    value={this.state.articleSelected.author}
+                    onChange={e => this.handleChange(e)}
+                  />
+                </ReactStrap.Col>
+              </ReactStrap.FormGroup>
+              <ReactStrap.FormGroup row>
+                <ReactStrap.Label sm={2}>Reviewer</ReactStrap.Label>
+                <ReactStrap.Col sm={10}>
+                  <ReactStrap.Input
+                    type="text"
+                    name="reviewer"
+                    placeholder="Reviewer"
+                    value={this.state.articleSelected.reviewer}
+                    onChange={e => this.handleChange(e)}
+                  />
+                </ReactStrap.Col>
+              </ReactStrap.FormGroup>
+            </ReactStrap.Form>
+          </ReactStrap.ModalBody>
+          <ReactStrap.ModalFooter>
+            <ReactStrap.Button
+              color="primary"
+              onClick={() => this.SaveArticle()}
+            >
+              {this.mode === "Add" ? "Save" : "Update"}
+            </ReactStrap.Button>{" "}
+            <ReactStrap.Button color="secondary" onClick={() => this.toggle()}>
+              Cancel
+            </ReactStrap.Button>
+          </ReactStrap.ModalFooter>
+        </ReactStrap.Modal>
       </Page>
     );
   }

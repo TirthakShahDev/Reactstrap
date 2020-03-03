@@ -5,7 +5,7 @@ export const parseTime = (
   time?: object | string | number,
   cFormat?: string
 ): string | null => {
-  if (time === undefined) {
+  if (time === undefined || time === '') {
     return null
   }
   const format = cFormat || '{y}-{m}-{d} {h}:{i}:{s}'

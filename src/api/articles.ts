@@ -9,7 +9,7 @@ export const defaultArticleData: IArticleData = {
   abstractContent: '',
   sourceURL: '',
   imageURL: '',
-  timestamp: '',
+  timestamp: new Date().toLocaleString(),
   platforms: ['a-platform'],
   disableComment: false,
   importance: 0,

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import * as AppActionCreators from "./actions/App.Actions";
 import { withRouter, Switch, Redirect, Route } from "react-router";
 import { connect } from "react-redux";
-import { AppState } from "./state/AppState";
+import { AppState, isAuthenticated } from "./state/AppState";
 import { bindActionCreators, Dispatch } from "redux";
 import _ from "lodash";
 import { EmptyLayout, LayoutRoute, MainLayout } from "./Layout";
@@ -11,11 +11,10 @@ import { IApplicationProps } from "./actions/App.Actions";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
 import "./styles/reduction.scss";
-import '../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css';
+import "../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
 const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 const ArticlePage = React.lazy(() => import("./pages/ArticlePage"));
-const NotFound = React.lazy(() => import("./pages/NotFoundPage"));
 
 interface IAppProps extends IApplicationProps {
   breakpoint: string;
@@ -37,14 +36,15 @@ class App extends Component<IAppProps, IState> {
         />
         <MainLayout breakpoint={this.props.breakpoint} selected={null}>
           <React.Suspense fallback={<PageSpinner />}>
-            <Route exact path="/" component={DashboardPage} />
-            <Route exact path="/Articles" component={ArticlePage} />
+            <Route exact path="/" component={isAuthenticated(DashboardPage)} />
+            <Route
+              exact
+              path="/Articles"
+              component={isAuthenticated(ArticlePage)}
+            />
           </React.Suspense>
         </MainLayout>
         <Redirect to="/login" />
-        <EmptyLayout>
-          <Route path="*" component={NotFound} />
-        </EmptyLayout>
       </Switch>
     );
   }

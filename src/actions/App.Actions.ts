@@ -4,8 +4,12 @@ import { User } from '../state/User';
 import { IErrorLog } from '../state/ErrorLog';
 import { LoginModel } from 'Models/LoginModel';
 import { login as LoginUser } from "../api/users";
+import ability from '../abilityConfig/ability'
+import { ConvertAbility } from 'utils/AbilityConverter';
+import { RawRule } from '@casl/ability';
+import { createBrowserHistory } from "history";
 export interface IApplicationProps {
-    loginAsync :(loginModel: any) => IAppAction;
+    loginAsync :(loginModel: any) => Promise<IAppAction>;
     login: (loginModel: any) => IAppAction;
     logout: () => IAppAction;
     addError: (data: any) => IAppAction;
@@ -21,9 +25,13 @@ export interface IApplicationProps {
 
 export const loginAsync = (loginModel: LoginModel) => {
     return function(dispatch : any) {
-        return LoginUser(loginModel).then(({ data }) => {
-            
-            dispatch(login(data));
+        return LoginUser(loginModel).then(async ({ data }) => {
+            let abilities : RawRule[] = ConvertAbility(data.permissions)
+            ability.update(abilities)
+            await dispatch(login(data));
+          }).then(() => {
+              let history = createBrowserHistory();
+              history.push('/')
           }).catch(m => console.log(m)).finally();
     }
 };

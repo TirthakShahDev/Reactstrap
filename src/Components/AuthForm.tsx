@@ -3,6 +3,7 @@ import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { IApplicationProps } from "../actions/App.Actions";
 import { LoginModel } from "../Models/LoginModel";
+
 interface ILoginProps extends IApplicationProps {
   usernameLabel: string;
   usernameInputProps: any;
@@ -47,8 +48,7 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
   }
 
   handleSubmit = () => {
-    this.props.loginAsync(this.state)
-    this.props.history.push('/');
+    this.props.loginAsync(this.state).then(() => this.props.history.push('/'))
   };
 
   render() {
