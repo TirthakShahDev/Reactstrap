@@ -1,20 +1,6 @@
-import Avatar from '../Components/Avatar';
-import { UserCard } from '../Components/Card';
-import Notifications from '../Components/Notifications';
-import { notificationsData } from '../utils/NotificationsData';
-import withBadge from '../hocs/withBadge';
-import React from 'react';
-import {
-  MdClearAll,
-  MdExitToApp,
-  MdHelp,
-  MdInsertChart,
-  MdMessage,
-  MdNotificationsActive,
-  MdNotificationsNone,
-  MdPersonPin,
-  MdSettingsApplications,
-} from 'react-icons/md';
+import Avatar from "../Components/Avatar";
+import React from "react";
+import { MdClearAll, MdExitToApp } from "react-icons/md";
 import {
   Button,
   ListGroup,
@@ -24,33 +10,23 @@ import {
   NavItem,
   NavLink,
   Popover,
-  PopoverBody,
-} from 'reactstrap';
-import bn from '../utils/bemnames';
+  PopoverBody
+} from "reactstrap";
+import bn from "../utils/bemnames";
+import { IAppAction } from "../actions/Helpers";
 
-const bem = bn.create('header');
+const bem = bn.create("header");
 
-const MdNotificationsActiveWithBadge = withBadge({
-  size: 'md',
-  style: {
-    top: -10,
-    right: -10,
-    display: 'inline-flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-})(MdNotificationsActive);
-
-class Header extends React.Component {
+class Header extends React.Component<{logout: () => IAppAction}> {
   state = {
     isOpenNotificationPopover: false,
     isNotificationConfirmed: false,
-    isOpenUserCardPopover: false,
+    isOpenUserCardPopover: false
   };
 
   toggleNotificationPopover = () => {
     this.setState({
-      isOpenNotificationPopover: !this.state.isOpenNotificationPopover,
+      isOpenNotificationPopover: !this.state.isOpenNotificationPopover
     });
 
     if (!this.state.isNotificationConfirmed) {
@@ -60,7 +36,7 @@ class Header extends React.Component {
 
   toggleUserCardPopover = () => {
     this.setState({
-      isOpenUserCardPopover: !this.state.isOpenUserCardPopover,
+      isOpenUserCardPopover: !this.state.isOpenUserCardPopover
     });
   };
 
@@ -68,48 +44,18 @@ class Header extends React.Component {
     event.preventDefault();
     event.stopPropagation();
 
-    document.querySelector('.cr-sidebar').classList.toggle('cr-sidebar--open');
+    document.querySelector(".cr-sidebar").classList.toggle("cr-sidebar--open");
   };
 
   render() {
-    const { isNotificationConfirmed } = this.state;
-
     return (
-      <Navbar light expand className={bem.b('bg-white')}>
+      <Navbar light expand className={bem.b("bg-white")}>
         <Nav navbar className="mr-2">
           <Button outline onClick={this.handleSidebarControlButton}>
             <MdClearAll size={25} />
           </Button>
         </Nav>
-        <Nav navbar className={bem.e('nav-right')}>
-          <NavItem className="d-inline-flex">
-            <NavLink id="Popover1" className="position-relative">
-              {isNotificationConfirmed ? (
-                <MdNotificationsNone
-                  size={25}
-                  className="text-secondary can-click"
-                  onClick={this.toggleNotificationPopover}
-                />
-              ) : (
-                <MdNotificationsActiveWithBadge
-                  size={25}
-                  className="text-secondary can-click animated swing infinite"
-                  onClick={this.toggleNotificationPopover}
-                />
-              )}
-            </NavLink>
-            <Popover
-              placement="bottom"
-              isOpen={this.state.isOpenNotificationPopover}
-              toggle={this.toggleNotificationPopover}
-              target="Popover1"
-            >
-              <PopoverBody>
-                <Notifications notificationsData={notificationsData} />
-              </PopoverBody>
-            </Popover>
-          </NavItem>
-
+        <Nav navbar className={bem.e("nav-right")}>
           <NavItem>
             <NavLink id="Popover2">
               <Avatar
@@ -126,33 +72,11 @@ class Header extends React.Component {
               style={{ minWidth: 250 }}
             >
               <PopoverBody className="p-0 border-light">
-                <UserCard
-                  title="Jane"
-                  subtitle="jane@jane.com"
-                  text="Last updated 3 mins ago"
-                  className="border-light"
-                >
-                  <ListGroup flush>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdPersonPin /> Profile
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdInsertChart /> Stats
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdMessage /> Messages
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdSettingsApplications /> Settings
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdHelp /> Help
-                    </ListGroupItem>
-                    <ListGroupItem tag="button" action className="border-light">
-                      <MdExitToApp /> Signout
-                    </ListGroupItem>
-                  </ListGroup>
-                </UserCard>
+                <ListGroup flush>
+                  <ListGroupItem tag="button" action className="border-light" onClick={() => this.props.logout()}>
+                    <MdExitToApp /> Signout
+                  </ListGroupItem>
+                </ListGroup>
               </PopoverBody>
             </Popover>
           </NavItem>

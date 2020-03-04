@@ -16,7 +16,7 @@ const userList: IUserData[] = [
 
     permissions: [
       {
-        Module: 'Blog',
+        Module: 'DashBoard',
         CanRead: true,
         CanDelete: true,
         CanUpdate: true,
@@ -45,12 +45,12 @@ const userList: IUserData[] = [
     roles: ['editor'],
     permissions: [
       {
-        Module: 'Blog',
-        CanRead: false,
-        CanDelete: false,
-        CanUpdate: false,
-        CanExport: false,
-        CanCreate: false
+        Module: 'DashBoard',
+        CanRead: true,
+        CanDelete: true,
+        CanUpdate: true,
+        CanExport: true,
+        CanCreate: true
       },
       {
         Module: 'Article',
@@ -74,7 +74,7 @@ const userList: IUserData[] = [
     roles: ['visitor'],
     permissions: [
       {
-        Module: 'Blog',
+        Module: 'DashBoard',
         CanRead: true,
         CanDelete: true,
         CanUpdate: true,
@@ -107,7 +107,7 @@ for (let i = 2; i < userCount; i++) {
     roles: ['visitor'],
     permissions: [
       {
-        Module: 'Blog',
+        Module: 'DashBoard',
         CanRead: true,
         CanDelete: true,
         CanUpdate: true,

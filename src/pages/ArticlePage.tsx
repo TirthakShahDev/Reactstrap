@@ -46,6 +46,10 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       modal: false,
       articleSelected: defaultArticleData
     };
+  }
+
+  componentDidMount()
+  {
     this.getArticlesasync();
   }
 

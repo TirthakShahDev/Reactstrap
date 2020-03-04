@@ -34,7 +34,7 @@ class App extends Component<IAppProps, IState> {
           layout={EmptyLayout}
           component={(props: IAppProps) => <AuthPage {...this.props} />}
         />
-        <MainLayout breakpoint={this.props.breakpoint} selected={null}>
+        <MainLayout breakpoint={this.props.breakpoint} selected={null} logout={this.props.logout}>
           <React.Suspense fallback={<PageSpinner />}>
             <Route exact path="/" component={isAuthenticated(DashboardPage)} />
             <Route

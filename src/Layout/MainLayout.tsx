@@ -1,9 +1,11 @@
 import { Content, Footer, Sidebar } from "../Layout";
 import React from "react";
 import Header from "./Header";
+import { IAppAction } from "../actions/Helpers";
 interface IMainLayoutProps {
   breakpoint: string;
   selected: [];
+  logout: () => IAppAction;
 }
 
 interface IMainLayoutState {
@@ -86,7 +88,7 @@ class MainLayout extends React.Component<IMainLayoutProps, IMainLayoutState> {
       <main className="cr-app bg-light">
         <Sidebar />
         <Content fluid onClick={this.handleContentClick}>
-          <Header />
+          <Header logout={this.props.logout} />
           {children}
           <Footer />
         </Content>
