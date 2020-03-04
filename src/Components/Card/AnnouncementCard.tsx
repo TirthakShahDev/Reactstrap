@@ -4,7 +4,7 @@ import PropTypes from '../../utils/propTypes';
 import { Card, CardHeader, CardBody, CardText, Button } from 'reactstrap';
 
 import Avatar from '../Avatar';
-
+import {Common} from '../../Constants/Common'
 import classNames from 'classnames';
 
 const AnnouncementCard = ({
@@ -37,7 +37,7 @@ const AnnouncementCard = ({
         </CardText>
         <CardText className="text-center">{text}</CardText>
 
-        <Button color="primary" {...buttonProps} />
+        <Button color={Common.Colors.PRIMARY} {...buttonProps} />
       </CardBody>
     </Card>
   );

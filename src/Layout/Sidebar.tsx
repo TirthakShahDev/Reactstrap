@@ -57,7 +57,7 @@ class Sidebar extends React.Component {
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon }, index) => (
-              <Can I={Common.Actions.CAN_READ} a={name}>
+              <Can I={Common.Actions.CAN_READ} a={name} key={index}>
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <BSNavLink
                     id={`navItem-${name}-${index}`}

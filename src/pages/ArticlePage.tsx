@@ -14,8 +14,9 @@ import { parseTime, ConvertToTableFilter } from "../utils";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { defaultArticleData } from "../api/articles";
 import _ from "lodash";
-import { Can } from "../abilityConfig/ability-context";
-
+import { Can, AbilityContext } from "../abilityConfig/ability-context";
+import AccessDenied from "./AccessDenied";
+import { Common } from "../Constants/Common";
 
 interface IArticleProps extends IApplicationProps {}
 interface IArticleState {
@@ -38,7 +39,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     type: undefined,
     sort: "+id"
   };
-
+  static contextType = AbilityContext;
   constructor(props: Readonly<IApplicationProps>) {
     super(props);
     this.state = {
@@ -48,8 +49,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     };
   }
 
-  componentDidMount()
-  {
+  componentDidMount() {
     this.getArticlesasync();
   }
 
@@ -142,29 +142,29 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   actionButtons(cell: any, row: any, formatExtraData: any, rowIndex: number) {
     return (
       <div>
-        <Can I="CanUpdate" a ="Article">
-        <ReactStrap.Button
-          color="primary"
-          className="btn btn-primary btn-xs"
-          onClick={() => this.onClickProductSelected(cell, row, rowIndex)}
-        >
-          <FaPencilAlt />
-        </ReactStrap.Button>
+        <Can I={Common.Actions.CAN_UPDATE} a={Common.Modules.ARTICLE}>
+          <ReactStrap.Button
+            color={Common.Colors.PRIMARY}
+            className="btn btn-primary btn-xs"
+            onClick={() => this.onClickProductSelected(cell, row, rowIndex)}
+          >
+            <FaPencilAlt />
+          </ReactStrap.Button>
         </Can>
-        <Can I="CanDelete" a ="Article">
-        <ReactStrap.Button
-          color="danger"
-          className="btn-xs"
-          onClick={() => this.DeleteArticle(cell, row, rowIndex)}
-        >
-          <FaTrash />
-        </ReactStrap.Button>
+        <Can I={Common.Actions.CAN_DELETE} a={Common.Modules.ARTICLE}>
+          <ReactStrap.Button
+            color={Common.Colors.DANGER}
+            className="btn-xs"
+            onClick={() => this.DeleteArticle(cell, row, rowIndex)}
+          >
+            <FaTrash />
+          </ReactStrap.Button>
         </Can>
       </div>
     );
   }
   render() {
-    return (
+    return this.context.can(Common.Actions.CAN_READ, Common.Modules.ARTICLE) ? (
       <Page
         className="Articlemanage"
         title="Manage Article"
@@ -174,9 +174,9 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
           <ReactStrap.Col md="12" sm="12" xs="12">
             <ReactStrap.Card>
               <ReactStrap.CardHeader>
-                <Can I="CanCreate" a ="Article">
+                <Can I="CanCreate" a="Article">
                   <ReactStrap.Button
-                    color="primary"
+                    color={Common.Colors.PRIMARY}
                     onClick={() => this.AddArticle()}
                   >
                     Add Article
@@ -253,7 +253,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
         >
           <ReactStrap.ModalHeader toggle={() => this.toggle()}>
             {" "}
-            {this.mode === "Add" ? "Add Article" : "Edit Article"}{" "}
+            {this.mode === Common.Modes.ADD ? "Add Article" : "Edit Article"}{" "}
           </ReactStrap.ModalHeader>
           <ReactStrap.ModalBody>
             <ReactStrap.Form>
@@ -277,7 +277,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     name="timestamp"
                     value={parseTime(
                       this.state.articleSelected.timestamp,
-                      "{y}-{m}-{d}"
+                      Common.DATEFORMAT
                     )}
                     onChange={e => this.handleChange(e)}
                     placeholder="Date"
@@ -312,10 +312,10 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
           </ReactStrap.ModalBody>
           <ReactStrap.ModalFooter>
             <ReactStrap.Button
-              color="primary"
+              color={Common.Colors.PRIMARY}
               onClick={() => this.SaveArticle()}
             >
-              {this.mode === "Add" ? "Save" : "Update"}
+              {this.mode === Common.Modes.ADD ? "Save" : "Update"}
             </ReactStrap.Button>{" "}
             <ReactStrap.Button color="secondary" onClick={() => this.toggle()}>
               Cancel
@@ -323,6 +323,8 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
           </ReactStrap.ModalFooter>
         </ReactStrap.Modal>
       </Page>
+    ) : (
+      <AccessDenied />
     );
   }
 }
