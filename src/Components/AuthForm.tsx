@@ -12,8 +12,7 @@ interface ILoginProps extends IApplicationProps {
 }
 
 interface ILoginState extends LoginModel {
-  Email: string;
-  PassWord: string;
+  
 }
 
 class AuthForm extends React.Component<ILoginProps, ILoginState> {

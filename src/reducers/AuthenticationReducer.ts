@@ -22,7 +22,7 @@ export const AuthenticationReducer = (
     case ActionType.CHANGE_LANGUAGE:
       return {
         ...state,
-        language : action.payload.language
+        language : action.payload
       };
     default:
       return state;

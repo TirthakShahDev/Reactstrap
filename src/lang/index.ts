@@ -2,6 +2,9 @@ import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 import enLocale from './en'
 import esLocale from './es'
+import { store } from "../Store";
+
+const state = store.getState();
 
 const resources = {
   en: {
@@ -19,7 +22,7 @@ const resources = {
 i18n
   .use(initReactI18next)
   .init({
-    fallbackLng: 'en',
+    fallbackLng: state.authentication.language ? state.authentication.language : 'en',
     debug: true,
     resources,
     interpolation: {
