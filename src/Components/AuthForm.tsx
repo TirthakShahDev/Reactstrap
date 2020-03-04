@@ -86,11 +86,6 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
             onChange={event => this.handleChange(event)}
           />
         </FormGroup>
-        <FormGroup check>
-          <Label check>
-            <Input type="checkbox" /> Remember me
-          </Label>
-        </FormGroup>
         <hr />
         <Button
           size="lg"

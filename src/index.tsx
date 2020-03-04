@@ -9,7 +9,7 @@ import { ErrorHook } from "./utils/ErrorHook";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AbilityContext } from './abilityConfig/ability-context'
 import ability from './abilityConfig/ability'
-
+import "./lang";
 
 import "bootstrap/dist/css/bootstrap.min.css";
 

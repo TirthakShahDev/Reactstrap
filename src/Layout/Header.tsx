@@ -1,6 +1,6 @@
 import Avatar from "../Components/Avatar";
 import React from "react";
-import { MdClearAll, MdExitToApp } from "react-icons/md";
+import { MdClearAll, MdExitToApp, MdFlag, MdTrackChanges, MdFlare } from "react-icons/md";
 import {
   Button,
   ListGroup,
@@ -14,24 +14,14 @@ import {
 } from "reactstrap";
 import bn from "../utils/bemnames";
 import { IAppAction } from "../actions/Helpers";
+import i18next from "i18next";
 
 const bem = bn.create("header");
 
 class Header extends React.Component<{logout: () => IAppAction}> {
   state = {
-    isOpenNotificationPopover: false,
-    isNotificationConfirmed: false,
-    isOpenUserCardPopover: false
-  };
-
-  toggleNotificationPopover = () => {
-    this.setState({
-      isOpenNotificationPopover: !this.state.isOpenNotificationPopover
-    });
-
-    if (!this.state.isNotificationConfirmed) {
-      this.setState({ isNotificationConfirmed: true });
-    }
+    isOpenUserCardPopover: false,
+    isOpenChangeLang: false
   };
 
   toggleUserCardPopover = () => {
@@ -40,11 +30,20 @@ class Header extends React.Component<{logout: () => IAppAction}> {
     });
   };
 
+  toggleChangeLangPopover = () => {
+    this.setState({
+      isOpenChangeLang: !this.state.isOpenChangeLang
+    });
+  };
+
   handleSidebarControlButton = event => {
     event.preventDefault();
     event.stopPropagation();
 
     document.querySelector(".cr-sidebar").classList.toggle("cr-sidebar--open");
+  };
+  changeLanguage = (lang : any) => {
+    i18next.changeLanguage(lang)
   };
 
   render() {
@@ -56,6 +55,31 @@ class Header extends React.Component<{logout: () => IAppAction}> {
           </Button>
         </Nav>
         <Nav navbar className={bem.e("nav-right")}>
+        <NavItem>
+          <NavLink id="Popover3">
+              <Button>Lang</Button>
+            </NavLink>
+            <Popover
+              placement="bottom-end"
+              isOpen={this.state.isOpenChangeLang}
+              toggle={this.toggleChangeLangPopover}
+              target="Popover3"
+              className="p-0 border-0"
+              style={{ minWidth: 250 }}
+            >
+              <PopoverBody className="p-0 border-light">
+                <ListGroup flush>
+                <ListGroupItem tag="button" action className="border-light" onClick={() => this.changeLanguage('en')}>
+                    <MdTrackChanges /> English
+                  </ListGroupItem>
+                  <ListGroupItem tag="button" action className="border-light" onClick={() => this.changeLanguage('es')}>
+                    <MdFlare /> Spanish
+                  </ListGroupItem>
+                </ListGroup>
+              </PopoverBody>
+            </Popover>
+          </NavItem>
+
           <NavItem>
             <NavLink id="Popover2">
               <Avatar

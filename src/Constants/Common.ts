@@ -17,6 +17,8 @@ export class Common {
     static Colors = class Colors {
         public static readonly PRIMARY = 'primary'
         public static readonly DANGER = 'danger'
+        public static readonly SECONDARY = 'secondary'
+        
     }
 
     static Modes = class Modes {

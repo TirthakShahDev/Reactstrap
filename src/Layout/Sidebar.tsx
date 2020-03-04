@@ -8,20 +8,23 @@ import { Nav, Navbar, NavItem, NavLink as BSNavLink } from "reactstrap";
 import bn from "../utils/bemnames";
 import { Can } from "../abilityConfig/ability-context";
 import { Common } from "../Constants/Common";
+import { withTranslation } from "react-i18next";
+import { TFunction } from "i18next";
 const sidebarBackground = {
   backgroundImage: `url("${sidebarBgImage}")`,
   backgroundSize: "cover",
   backgroundRepeat: "no-repeat"
 };
 
+//It'll be come From API for Real Application
 const navItems = [
-  { to: "/", name: "DashBoard", exact: true, Icon: MdDashboard },
-  { to: "/Articles", name: "Article", exact: true, Icon: MdWidgets }
+  { to: "/", name: "DashBoard", exact: true, Icon: MdDashboard, meta : {title : 'dashboard'} },
+  { to: "/Articles", name: "Article", exact: true, Icon: MdWidgets, meta : {title : 'article'}  }
 ];
 
 const bem = bn.create("sidebar");
 
-class Sidebar extends React.Component {
+class Sidebar extends React.Component<{t: TFunction}> {
   state = {
     isOpenComponents: false,
     isOpenContents: false,
@@ -39,6 +42,7 @@ class Sidebar extends React.Component {
   };
 
   render() {
+    const { t } = this.props;
     return (
       <aside className={bem.b()} data-image={sidebarBgImage}>
         <div className={bem.e("background")} style={sidebarBackground} />
@@ -56,7 +60,7 @@ class Sidebar extends React.Component {
             </SourceLink>
           </Navbar>
           <Nav vertical>
-            {navItems.map(({ to, name, exact, Icon }, index) => (
+            {navItems.map(({ to, name, exact, Icon, meta }, index) => (
               <Can I={Common.Actions.CAN_READ} a={name} key={index}>
                 <NavItem key={index} className={bem.e("nav-item")}>
                   <BSNavLink
@@ -68,7 +72,7 @@ class Sidebar extends React.Component {
                     exact={exact}
                   >
                     <Icon className={bem.e("nav-item-icon")} />
-                    <span className="">{name}</span>
+                    <span className="">{t(`route.${meta.title}`)}</span>
                   </BSNavLink>
                 </NavItem>
               </Can>
@@ -80,4 +84,4 @@ class Sidebar extends React.Component {
   }
 }
 
-export default Sidebar;
+export default withTranslation()(Sidebar);
