@@ -7,7 +7,6 @@ export const AuthenticationReducer = (
 ): User => {
   switch (action.type) {
     case ActionType.LOGIN_REQUEST:
-      console.log(action.payload);
       return {
         ...state,
         token: action.payload.accessToken,

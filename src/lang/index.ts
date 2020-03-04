@@ -23,7 +23,7 @@ i18n
   .use(initReactI18next)
   .init({
     fallbackLng: state.authentication?.language ? state.authentication.language : 'en',
-    debug: true,
+    debug: false,
     resources,
     interpolation: {
       escapeValue: false, // not needed for react as it escapes by default

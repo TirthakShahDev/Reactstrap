@@ -1,6 +1,6 @@
 import Avatar from "../Components/Avatar";
 import React from "react";
-import { MdClearAll, MdExitToApp, MdFlag, MdTrackChanges, MdFlare } from "react-icons/md";
+import { MdClearAll, MdExitToApp, MdTrackChanges, MdFlare } from "react-icons/md";
 import {
   Button,
   ListGroup,
@@ -14,8 +14,6 @@ import {
 } from "reactstrap";
 import bn from "../utils/bemnames";
 import { IAppAction } from "../actions/Helpers";
-import i18next from "i18next";
-
 const bem = bn.create("header");
 
 class Header extends React.Component<{logout: () => IAppAction, changeLanguage: (language: any) => IAppAction}> {
