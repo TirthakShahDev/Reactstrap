@@ -1,5 +1,6 @@
 import { Model } from './Helpers';
 import { permission } from 'api/types';
+import { RawRule } from '@casl/ability';
 
 export interface IUser {
     email?: string;
@@ -26,4 +27,5 @@ export class User extends UserModel {
     public roles: string[];
     public token: string;
     public permissions: permission[];
+    public abilities: RawRule[];
 }

@@ -28,6 +28,7 @@ export const loginAsync = (loginModel: LoginModel) => {
         return LoginUser(loginModel).then(async ({ data }) => {
             let abilities : RawRule[] = ConvertAbility(data.permissions)
             ability.update(abilities)
+            data.abilities = abilities;
             await dispatch(login(data));
           }).then(() => {
               let history = createBrowserHistory();
