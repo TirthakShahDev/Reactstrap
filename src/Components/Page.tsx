@@ -10,10 +10,10 @@ import Typography from './Typography';
 const bem = bn.create('page');
 
 const Page = ({
-  title ,
-  breadcrumbs,
+  title ='',
+  breadcrumbs=null,
   tag: Tag = null,
-  className,
+  className = null,
   children = null,
   ...restProps
 }) => {
@@ -49,7 +49,6 @@ const Page = ({
 Page.propTypes = {
   tag: PropTypes.component,
   title: PropTypes.oneOfType([PropTypes.string, PropTypes.element]),
-  className: PropTypes.string,
   children: PropTypes.node,
   breadcrumbs: PropTypes.arrayOf(
     PropTypes.shape({
@@ -62,6 +61,7 @@ Page.propTypes = {
 Page.defaultProps = {
   tag: 'div',
   title: '',
+  className: ''
 };
 
 export default Page;
