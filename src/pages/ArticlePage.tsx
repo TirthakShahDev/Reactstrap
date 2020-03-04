@@ -19,18 +19,18 @@ import AccessDenied from "./AccessDenied";
 import { Common } from "../Constants/Common";
 import { withTranslation } from "react-i18next";
 
-interface IArticleProps extends IApplicationProps {t: TFunction }
+interface IArticleProps extends IApplicationProps {
+  t: TFunction;
+}
 interface IArticleState {
   articles: IArticleData[];
   modal: boolean;
   articleSelected?: IArticleData;
+  titlesearch : string
 }
 
 class ArticlePage extends React.Component<IArticleProps, IArticleState> {
-  private tableKey = 0;
   private list: IArticleData[] = [];
-  private total = 0;
-  private listLoading = true;
   private mode: string | "Add" | "Edit";
   private listQuery = {
     page: 1,
@@ -46,7 +46,8 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     this.state = {
       articles: [],
       modal: false,
-      articleSelected: defaultArticleData
+      articleSelected: defaultArticleData,
+      titlesearch :undefined
     };
   }
 
@@ -105,10 +106,8 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   }
 
   private async getArticlesasync() {
-    this.listLoading = true;
     const { data } = await GetArticles(this.listQuery);
     this.list = data.items;
-    this.total = data.total;
     this.setState({ articles: this.list });
   }
 
@@ -140,7 +139,12 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     });
   }
 
-  private actionButtons(cell: any, row: any, formatExtraData: any, rowIndex: number) {
+  private actionButtons(
+    cell: any,
+    row: any,
+    formatExtraData: any,
+    rowIndex: number
+  ) {
     return (
       <div>
         <Can I={Common.Actions.CAN_UPDATE} a={Common.Modules.ARTICLE}>
@@ -164,28 +168,42 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       </div>
     );
   }
-  
+
   render() {
     const { t } = this.props;
 
     return this.context.can(Common.Actions.CAN_READ, Common.Modules.ARTICLE) ? (
       <Page
-        title={t('article.title')}
-        breadcrumbs={[{ name: t('route.article'), active: true }]}
+        title={t("article.title")}
+        breadcrumbs={[{ name: t("route.article"), active: true }]}
       >
         <ReactStrap.Row>
           <ReactStrap.Col md="12" sm="12" xs="12">
             <ReactStrap.Card>
               <ReactStrap.CardHeader>
-                <Can I="CanCreate" a="Article">
-                  <ReactStrap.Button
-                    color={Common.Colors.PRIMARY}
-                    onClick={() => this.AddArticle()}
-                  >
-                    {t('permission.createArticle')}
-                  </ReactStrap.Button>
-                </Can>
+                <div className="filter-container">
+                <ReactStrap.Input
+                    type="text"
+                    placeholder={t("article.tabletitle")}
+                    value={this.state.titlesearch}
+                    className="filter-item"
+                    style={{width:"200px"}}
+                    onChange={(e) => this.handleChange(e)}
+                    onKeyUp={() => this.handleFilter()}
+                  ></ReactStrap.Input>
+                  <Can I="CanCreate" a="Article">
+                    <ReactStrap.Button
+                      color={Common.Colors.PRIMARY}
+                      onClick={() => this.AddArticle()}
+                      className="filter-item"
+                    >
+                      {t("permission.createArticle")}
+                    </ReactStrap.Button>
+                  </Can>
+                 
+                </div>
               </ReactStrap.CardHeader>
+
               <ReactStrap.CardBody>
                 <BootstrapTable
                   data={this.state.articles}
@@ -205,7 +223,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     dataAlign="center"
                     dataSort={true}
                   >
-                     {t('article.id')}
+                    {t("article.id")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="timestamp"
@@ -215,14 +233,14 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                       this.formatDate(cell, row, formatExtraData, rowIndex)
                     }
                   >
-                    {t('article.date')}
+                    {t("article.date")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="title"
                     dataAlign="center"
                     dataSort={true}
                   >
-                    {t('article.tabletitle')}
+                    {t("article.tabletitle")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="author"
@@ -236,14 +254,14 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                     dataAlign="center"
                     dataSort={true}
                   >
-                    {t('article.reviewer')}
+                    {t("article.reviewer")}
                   </TableHeaderColumn>
                   <TableHeaderColumn
                     dataField="button"
                     dataAlign="center"
                     dataFormat={this.actionButtons.bind(this)}
                   >
-                    {t('article.actions')}
+                    {t("article.actions")}
                   </TableHeaderColumn>
                 </BootstrapTable>
               </ReactStrap.CardBody>
@@ -256,25 +274,28 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
           onClosed={() => this.ResetModalData()}
         >
           <ReactStrap.ModalHeader toggle={() => this.toggle()}>
-            
-            {this.mode === Common.Modes.ADD ? t('permission.createArticle') : t('permission.editArticle')}
+            {this.mode === Common.Modes.ADD
+              ? t("permission.createArticle")
+              : t("permission.editArticle")}
           </ReactStrap.ModalHeader>
           <ReactStrap.ModalBody>
             <ReactStrap.Form>
               <ReactStrap.FormGroup row>
-                <ReactStrap.Label sm={2}>{t('article.tabletitle')}</ReactStrap.Label>
+                <ReactStrap.Label sm={2}>
+                  {t("article.tabletitle")}
+                </ReactStrap.Label>
                 <ReactStrap.Col sm={10}>
                   <ReactStrap.Input
                     type="text"
                     name="title"
-                    placeholder={t('article.tabletitle')}
+                    placeholder={t("article.tabletitle")}
                     value={this.state.articleSelected.title}
                     onChange={e => this.handleChange(e)}
                   />
                 </ReactStrap.Col>
               </ReactStrap.FormGroup>
               <ReactStrap.FormGroup row>
-                <ReactStrap.Label sm={2}>{t('article.date')}</ReactStrap.Label>
+                <ReactStrap.Label sm={2}>{t("article.date")}</ReactStrap.Label>
                 <ReactStrap.Col sm={10}>
                   <ReactStrap.Input
                     type="text"
@@ -284,29 +305,33 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                       Common.DATEFORMAT
                     )}
                     onChange={e => this.handleChange(e)}
-                    placeholder={t('article.date')}
+                    placeholder={t("article.date")}
                   />
                 </ReactStrap.Col>
               </ReactStrap.FormGroup>
               <ReactStrap.FormGroup row>
-                <ReactStrap.Label sm={2}>{t('article.author')}</ReactStrap.Label>
+                <ReactStrap.Label sm={2}>
+                  {t("article.author")}
+                </ReactStrap.Label>
                 <ReactStrap.Col sm={10}>
                   <ReactStrap.Input
                     type="text"
                     name="author"
-                    placeholder={t('article.author')}
+                    placeholder={t("article.author")}
                     value={this.state.articleSelected.author}
                     onChange={e => this.handleChange(e)}
                   />
                 </ReactStrap.Col>
               </ReactStrap.FormGroup>
               <ReactStrap.FormGroup row>
-                <ReactStrap.Label sm={2}>{t('article.reviewer')}</ReactStrap.Label>
+                <ReactStrap.Label sm={2}>
+                  {t("article.reviewer")}
+                </ReactStrap.Label>
                 <ReactStrap.Col sm={10}>
                   <ReactStrap.Input
                     type="text"
                     name="reviewer"
-                    placeholder={t('article.reviewer')}
+                    placeholder={t("article.reviewer")}
                     value={this.state.articleSelected.reviewer}
                     onChange={e => this.handleChange(e)}
                   />
@@ -319,10 +344,15 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
               color={Common.Colors.PRIMARY}
               onClick={() => this.SaveArticle()}
             >
-              {this.mode === Common.Modes.ADD ? t('permission.save') : t('permission.save')}
+              {this.mode === Common.Modes.ADD
+                ? t("permission.save")
+                : t("permission.save")}
             </ReactStrap.Button>{" "}
-            <ReactStrap.Button color={Common.Colors.SECONDARY} onClick={() => this.toggle()}>
-              {t('permission.cancel')}
+            <ReactStrap.Button
+              color={Common.Colors.SECONDARY}
+              onClick={() => this.toggle()}
+            >
+              {t("permission.cancel")}
             </ReactStrap.Button>
           </ReactStrap.ModalFooter>
         </ReactStrap.Modal>
