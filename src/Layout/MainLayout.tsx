@@ -6,6 +6,7 @@ interface IMainLayoutProps {
   breakpoint: string;
   selected: [];
   logout: () => IAppAction;
+  changeLanguage: (language: any) => IAppAction;
 }
 
 interface IMainLayoutState {
@@ -88,7 +89,7 @@ class MainLayout extends React.Component<IMainLayoutProps, IMainLayoutState> {
       <main className="cr-app bg-light">
         <Sidebar />
         <Content fluid onClick={this.handleContentClick}>
-          <Header logout={this.props.logout} />
+          <Header logout={this.props.logout} changeLanguage ={this.props.changeLanguage}/>
           {children}
           <Footer />
         </Content>

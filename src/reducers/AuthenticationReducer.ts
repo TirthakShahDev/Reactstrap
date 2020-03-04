@@ -14,10 +14,16 @@ export const AuthenticationReducer = (
         email: action.payload.username,
         roles: action.payload.roles,
         permissions: action.payload.permissions,
-        abilities: action.payload.abilities
+        abilities: action.payload.abilities,
+        language: action.payload.language
       };
     case ActionType.LOGOUT_REQUEST:
       return null;
+    case ActionType.CHANGE_LANGUAGE:
+      return {
+        ...state,
+        language : action.payload.language
+      };
     default:
       return state;
   }

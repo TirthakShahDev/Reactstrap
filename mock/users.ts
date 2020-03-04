@@ -13,7 +13,7 @@ const userList: IUserData[] = [
     email: 'admin@test.com',
     phone: '1234567890',
     roles: ['admin'],
-
+    language : 'en',
     permissions: [
       {
         Module: 'DashBoard',
@@ -43,6 +43,7 @@ const userList: IUserData[] = [
     email: 'editor@test.com',
     phone: '1234567890',
     roles: ['editor'],
+    language : 'en',
     permissions: [
       {
         Module: 'DashBoard',
@@ -72,6 +73,7 @@ const userList: IUserData[] = [
     email: 'editor@test.com',
     phone: '1234567890',
     roles: ['visitor'],
+    language : 'en',
     permissions: [
       {
         Module: 'DashBoard',
@@ -105,6 +107,7 @@ for (let i = 2; i < userCount; i++) {
     email: faker.internet.email(),
     phone: faker.phone.phoneNumber(),
     roles: ['visitor'],
+    language : 'en',
     permissions: [
       {
         Module: 'DashBoard',
@@ -141,7 +144,8 @@ export const login = (req: Request, res: Response) => {
         data: {
           accessToken: Email + '-token',
           permissions: user.permissions,
-          roles : user.roles
+          roles : user.roles,
+          language : user.language
         }
       })
     }

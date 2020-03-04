@@ -43,6 +43,7 @@ export interface IUserData {
   avatar: string
   introduction: string
   roles: string[]
+  language : string
   permissions : permission[]
 }
 

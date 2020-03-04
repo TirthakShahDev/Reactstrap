@@ -21,11 +21,13 @@ export class User extends UserModel {
     public static NAME = 'name';
     public static ROLES = 'roles';
     public static TOKEN = 'token'
+    public LANGUAGE: 'language';
 
     public email: string;
     public name: string;
     public roles: string[];
     public token: string;
+    public language: string;
     public permissions: permission[];
     public abilities: RawRule[];
 }

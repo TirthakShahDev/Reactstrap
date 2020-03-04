@@ -7,6 +7,7 @@ import { login as LoginUser } from "../api/users";
 import ability from "../abilityConfig/ability";
 import { ConvertAbility } from "utils/AbilityConverter";
 import { RawRule } from "@casl/ability";
+import i18next from "i18next";
 export interface IApplicationProps {
   loginAsync: (loginModel: any) => Promise<IAppAction>;
   login: (loginModel: any) => IAppAction;
@@ -20,6 +21,7 @@ export interface IApplicationProps {
   errors: IErrorLog[];
   toggleSideBar: () => IAppAction;
   sidebarOpen: boolean;
+  changeLanguage: (language: any) => IAppAction;
 }
 
 export const loginAsync = (loginModel: LoginModel) => {
@@ -50,4 +52,9 @@ export const addError = (data: IErrorLog[]): IAppAction => {
 
 export const toggleSideBar = (): IAppAction => {
   return { type: ActionType.TOGGLE_SIDEBAR };
+};
+
+export const changeLanguage = (language :string): IAppAction => {
+  i18next.changeLanguage(language);
+  return { type: ActionType.CHANGE_LANGUAGE, payload : language};
 };

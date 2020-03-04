@@ -18,7 +18,7 @@ import i18next from "i18next";
 
 const bem = bn.create("header");
 
-class Header extends React.Component<{logout: () => IAppAction}> {
+class Header extends React.Component<{logout: () => IAppAction, changeLanguage: (language: any) => IAppAction}> {
   state = {
     isOpenUserCardPopover: false,
     isOpenChangeLang: false
@@ -42,10 +42,6 @@ class Header extends React.Component<{logout: () => IAppAction}> {
 
     document.querySelector(".cr-sidebar").classList.toggle("cr-sidebar--open");
   };
-  changeLanguage = (lang : any) => {
-    i18next.changeLanguage(lang)
-  };
-
   render() {
     return (
       <Navbar light expand className={bem.b("bg-white")}>
@@ -69,10 +65,10 @@ class Header extends React.Component<{logout: () => IAppAction}> {
             >
               <PopoverBody className="p-0 border-light">
                 <ListGroup flush>
-                <ListGroupItem tag="button" action className="border-light" onClick={() => this.changeLanguage('en')}>
+                <ListGroupItem tag="button" action className="border-light" onClick={() => this.props.changeLanguage('en')}>
                     <MdTrackChanges /> English
                   </ListGroupItem>
-                  <ListGroupItem tag="button" action className="border-light" onClick={() => this.changeLanguage('es')}>
+                  <ListGroupItem tag="button" action className="border-light" onClick={() => this.props.changeLanguage('es')}>
                     <MdFlare /> Spanish
                   </ListGroupItem>
                 </ListGroup>

@@ -9,6 +9,7 @@ export enum ActionType {
     LOGOUT_FAIL,
     ERROR_LOG,
     TOGGLE_SIDEBAR,
+    CHANGE_LANGUAGE
 }
 
 export interface IAppAction extends Action<ActionType> {
