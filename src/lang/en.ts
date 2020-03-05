@@ -13,6 +13,7 @@ export default {
   },
   dashboard: {
     title: 'DashBoard',
+    formtitle : 'Form Validation'
   },
   permission: {
     createArticle: 'Add Article',

@@ -1,32 +1,22 @@
 import logo200Image from "../assets/img/logo/logo_200.png";
 import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
-import { IApplicationProps } from "../actions/App.Actions";
-import { LoginModel } from "../Models/LoginModel";
+import { ILoginProps } from "../Types/PropTypes";
+import { ILoginState } from "../Types/StateTypes";
 
-interface ILoginProps extends IApplicationProps {
-  usernameLabel: string;
-  usernameInputProps: any;
-  passwordLabel: string;
-  passwordInputProps: any;
-}
 
-interface ILoginState extends LoginModel {
-  
-}
-
-class AuthForm extends React.Component<ILoginProps, ILoginState> {
+class LoginForm extends React.Component<ILoginProps, ILoginState> {
   public static defaultProps: Partial<ILoginProps> = {
-    usernameLabel: "Email",
+    usernameLabel: "UserName",
     usernameInputProps: {
-      type: "email",
-      placeholder: "your@email.com",
-      name: "Email"
+      type: "text",
+      placeholder: "UserName",
+      name: "UserName"
     },
     passwordLabel: "Password",
     passwordInputProps: {
       type: "password",
-      placeholder: "your password",
+      placeholder: "Password",
       name: "PassWord"
     }
   };
@@ -34,8 +24,8 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      Email: "admin",
-      PassWord: "111111"
+      UserName: "",
+      PassWord: ""
     };
   }
   handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -73,7 +63,7 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
           <Label for={usernameLabel}>{usernameLabel}</Label>
           <Input
             {...usernameInputProps}
-            value={this.state.Email}
+            value={this.state.UserName}
             onChange={event => this.handleChange(event)}
           />
         </FormGroup>
@@ -99,4 +89,4 @@ class AuthForm extends React.Component<ILoginProps, ILoginState> {
     );
   }
 }
-export default AuthForm;
+export default LoginForm;

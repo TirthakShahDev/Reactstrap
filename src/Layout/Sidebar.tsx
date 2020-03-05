@@ -2,7 +2,6 @@ import logo200Image from "../assets/img/logo/logo_200.png";
 import sidebarBgImage from "../assets/img/sidebar/sidebar-4.jpg";
 import React from "react";
 import { MdDashboard, MdWidgets } from "react-icons/md";
-import SourceLink from "../Components/SourceLink";
 import { NavLink } from "react-router-dom";
 import { Nav, Navbar, NavItem, NavLink as BSNavLink } from "reactstrap";
 import bn from "../utils/bemnames";
@@ -18,13 +17,25 @@ const sidebarBackground = {
 
 //It'll be come From API for Real Application
 const navItems = [
-  { to: "/", name: "DashBoard", exact: true, Icon: MdDashboard, meta : {title : 'dashboard'} },
-  { to: "/Articles", name: "Article", exact: true, Icon: MdWidgets, meta : {title : 'article'}  }
+  {
+    to: "/",
+    name: "DashBoard",
+    exact: true,
+    Icon: MdDashboard,
+    meta: { title: "dashboard" }
+  },
+  {
+    to: "/Articles",
+    name: "Article",
+    exact: true,
+    Icon: MdWidgets,
+    meta: { title: "article" }
+  }
 ];
 
 const bem = bn.create("sidebar");
 
-class Sidebar extends React.Component<{t: TFunction}> {
+class Sidebar extends React.Component<{ t: TFunction }> {
   state = {
     isOpenComponents: false,
     isOpenContents: false,
@@ -48,16 +59,14 @@ class Sidebar extends React.Component<{t: TFunction}> {
         <div className={bem.e("background")} style={sidebarBackground} />
         <div className={bem.e("content")}>
           <Navbar>
-            <SourceLink className="navbar-brand d-flex">
-              <img
-                src={logo200Image}
-                width="40"
-                height="30"
-                className="pr-2"
-                alt=""
-              />
-              <span className="text-white">React</span>
-            </SourceLink>
+            <img
+              src={logo200Image}
+              width="40"
+              height="30"
+              className="pr-2"
+              alt=""
+            />
+            <span className="text-white">React</span>
           </Navbar>
           <Nav vertical>
             {navItems.map(({ to, name, exact, Icon, meta }, index) => (

@@ -9,6 +9,7 @@
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "@types/react-bootstrap-table": "^4.3.7",
+    "@types/yup": "^0.26.32",
     "availity-reactstrap-validation": "^2.6.1",
     "axios": "^0.19.2",
     "bootstrap": "^4.4.1",
@@ -46,7 +47,8 @@
     "redux-persist": "^6.0.0",
     "redux-thunk": "^2.3.0",
     "typescript": "^3.8.2",
-    "yamljs": "^0.3.0"
+    "yamljs": "^0.3.0",
+    "yup": "^0.28.1"
   },
   "proxy": "http://localhost:9999/mock-api/v1",
   "scripts": {

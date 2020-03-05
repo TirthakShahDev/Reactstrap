@@ -1,30 +1,13 @@
 import { IAppAction, ActionType } from "./Helpers";
-import { match } from "react-router";
-import { User } from "../state/User";
 import { IErrorLog } from "../state/ErrorLog";
-import { LoginModel } from "Models/LoginModel";
 import { login as LoginUser } from "../api/users";
 import ability from "../abilityConfig/ability";
 import { ConvertAbility } from "utils/AbilityConverter";
 import { RawRule } from "@casl/ability";
 import i18next from "i18next";
-export interface IApplicationProps {
-  loginAsync: (loginModel: any) => Promise<IAppAction>;
-  login: (loginModel: any) => IAppAction;
-  logout: () => IAppAction;
-  addError: (data: any) => IAppAction;
-  match: match<any>;
-  location: any;
-  history: any;
-  authentication: User;
-  users: any;
-  errors: IErrorLog[];
-  toggleSideBar: () => IAppAction;
-  sidebarOpen: boolean;
-  changeLanguage: (language: any) => IAppAction;
-}
+import { ILoginState } from "Types/StateTypes";
 
-export const loginAsync = (loginModel: LoginModel) => {
+export const loginAsync = (loginModel: ILoginState) => {
   return function(dispatch: any) {
     return LoginUser(loginModel)
       .then(async ({ data }) => {

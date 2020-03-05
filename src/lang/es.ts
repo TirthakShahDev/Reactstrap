@@ -13,6 +13,7 @@ export default {
   },
   dashboard: {
     title: 'Tablero de instrumentos',
+    formtitle : 'Validación de formulario'
   },
   permission: {
     createArticle: 'Agregar artículo',

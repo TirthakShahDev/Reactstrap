@@ -1,0 +1,33 @@
+import { IAppAction } from "actions/Helpers";
+import { match } from "react-router";
+import { User } from "state/User";
+import { IErrorLog } from "state/ErrorLog";
+import { TFunction } from "i18next";
+import { ILoginState } from "Types/StateTypes";
+
+export interface IApplicationProps {
+  loginAsync: (loginModel: ILoginState) => Promise<IAppAction>;
+  login: (loginModel: ILoginState) => IAppAction;
+  logout: () => IAppAction;
+  addError: (data: any) => IAppAction;
+  match: match<any>;
+  location: any;
+  history: any;
+  authentication: User;
+  users: any;
+  errors: IErrorLog[];
+  toggleSideBar: () => IAppAction;
+  sidebarOpen: boolean;
+  changeLanguage: (language: any) => IAppAction;
+}
+
+export interface IArticleProps extends IApplicationProps {
+  t: TFunction;
+}
+
+export interface ILoginProps extends IApplicationProps {
+  usernameLabel: string;
+  usernameInputProps: any;
+  passwordLabel: string;
+  passwordInputProps: any;
+}

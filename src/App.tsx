@@ -6,8 +6,8 @@ import { AppState, isAuthenticated } from "./state/AppState";
 import { bindActionCreators, Dispatch } from "redux";
 import _ from "lodash";
 import { EmptyLayout, LayoutRoute, MainLayout } from "./Layout";
-import AuthPage from "./Components/AuthPage";
-import { IApplicationProps } from "./actions/App.Actions";
+import LoginPage from "./pages/LoginPage";
+import { IApplicationProps } from "./Types/PropTypes";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
 import "./styles/reduction.scss";
@@ -32,7 +32,7 @@ class App extends Component<IAppProps, IState> {
           exact
           path="/login"
           layout={EmptyLayout}
-          component={(props: IAppProps) => <AuthPage {...this.props} />}
+          component={(props: IAppProps) => <LoginPage {...this.props} />}
         />
         <MainLayout breakpoint={this.props.breakpoint} selected={null} logout={this.props.logout} changeLanguage = {this.props.changeLanguage}>
           <React.Suspense fallback={<PageSpinner />}>

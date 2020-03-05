@@ -136,13 +136,13 @@ export const register = (req: Request, res: Response) => {
 }
 
 export const login = (req: Request, res: Response) => {
-  const { Email } = req.body
+  const { UserName } = req.body
   for (const user of userList) {
-    if (user.username === Email) {
+    if (user.username === UserName) {
       return res.json({
         code: 20000,
         data: {
-          accessToken: Email + '-token',
+          accessToken: UserName + '-token',
           permissions: user.permissions,
           roles : user.roles,
           language : user.language

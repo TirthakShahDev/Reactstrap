@@ -1,5 +1,5 @@
 import request from '../utils/request'
-import { LoginModel } from 'Models/LoginModel'
+import { ILoginState } from 'Types/StateTypes'
 
 export const getUsers = (params: any) =>
   request({
@@ -34,7 +34,7 @@ export const deleteUser = (username: string) =>
     method: 'delete'
   })
 
-export const login = (data: LoginModel) =>
+export const login = (data: ILoginState) =>
   request({
     url: '/users/login',
     method: 'post',

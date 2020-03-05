@@ -7,7 +7,7 @@ import {
 } from "react-bootstrap-table";
 import * as ReactStrap from "reactstrap";
 import confirm from "reactstrap-confirm";
-import { IApplicationProps } from "../actions/App.Actions";
+import { IApplicationProps } from "../Types/PropTypes";
 import { getArticles as GetArticles } from "../api/articles";
 import { IArticleData } from "../api/types";
 import { parseTime, ConvertToTableFilter } from "../utils";
@@ -18,16 +18,8 @@ import { Can, AbilityContext } from "../abilityConfig/ability-context";
 import AccessDenied from "./AccessDenied";
 import { Common } from "../Constants/Common";
 import { withTranslation } from "react-i18next";
-
-interface IArticleProps extends IApplicationProps {
-  t: TFunction;
-}
-interface IArticleState {
-  articles: IArticleData[];
-  modal: boolean;
-  articleSelected?: IArticleData;
-  titlesearch : string
-}
+import { IArticleProps } from "../Types/PropTypes";
+import { IArticleState } from "../Types/StateTypes";
 
 class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   private list: IArticleData[] = [];
@@ -47,7 +39,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       articles: [],
       modal: false,
       articleSelected: defaultArticleData,
-      titlesearch :undefined
+      titlesearch: undefined
     };
   }
 
@@ -182,13 +174,13 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
             <ReactStrap.Card>
               <ReactStrap.CardHeader>
                 <div className="filter-container">
-                <ReactStrap.Input
+                  <ReactStrap.Input
                     type="text"
                     placeholder={t("article.tabletitle")}
                     value={this.state.titlesearch}
                     className="filter-item"
-                    style={{width:"200px"}}
-                    onChange={(e) => this.handleChange(e)}
+                    style={{ width: "200px" }}
+                    onChange={e => this.handleChange(e)}
                     onKeyUp={() => this.handleFilter()}
                   ></ReactStrap.Input>
                   <Can I="CanCreate" a="Article">
@@ -200,7 +192,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                       {t("permission.createArticle")}
                     </ReactStrap.Button>
                   </Can>
-                 
                 </div>
               </ReactStrap.CardHeader>
 
