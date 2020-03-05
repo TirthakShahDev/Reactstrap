@@ -31,6 +31,8 @@ export default {
     author: 'Author',
     reviewer: 'Reviewer',
     actions: 'Actions',
-    saveMessage : 'Article Save Successfully'
+    saveMessage : 'Article Save Successfully',
+    updateMessage :'Article Updated Successfully',
+    deleteMessage :'Article Deleted Successfully'
   }
 }

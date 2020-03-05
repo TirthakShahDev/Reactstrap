@@ -31,6 +31,8 @@ export default {
     author: 'Autor',
     reviewer: 'Revisor',
     actions: 'Acciones',
-    saveMessage : 'Artículo Guardar con éxito'
+    saveMessage : 'Artículo Guardar con éxito',
+    updateMessage : 'Artículo Guardar con éxito',
+    deleteMessage :'Article Updated Successfully'
   }
 }

@@ -29,7 +29,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     page: 1,
     limit: 20,
     importance: undefined,
-    title: undefined,
     type: undefined,
     sort: "+id"
   };
@@ -42,7 +41,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       articles: [],
       modal: false,
       articleSelected: defaultArticleData,
-      titlesearch: undefined
     };
   }
 
@@ -78,6 +76,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   private SaveArticle = () => {
     const { t } = this.props;
+    
     //Call API to do Server Data Changes
     this.setState(
       {
@@ -88,13 +87,14 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       () => {
         this.state.articles.push(this.state.articleSelected);
         this.toggleModal();
-        toast.success(t("article.saveMessage"));
+        toast.success(this.mode === 'Add' ? t("article.saveMessage") : t("article.updateMessage"));
       }
     );
   };
 
   private handleFilter() {
     this.listQuery.page = 1;
+    this.listQuery.title = this.state.titlesearch;
     this.getArticlesasync();
   }
 
@@ -118,6 +118,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   }
 
   private async DeleteArticle(cell: any, row: any, rowIndex: number) {
+    const { t } = this.props;
     let result = await confirm({
       title: <>Article "{row.title}" Delete</>
     });
@@ -125,6 +126,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       //Call API to do Server Data Changes
       let articleList = this.state.articles.filter(m => m.id !== row.id);
       this.setState({ articles: articleList });
+      toast.warn(t('article.deleteMessage'))
     }
   }
 
@@ -181,15 +183,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
             <ReactStrap.Card>
               <ReactStrap.CardHeader>
                 <div className="filter-container">
-                  <ReactStrap.Input
-                    type="text"
-                    placeholder={t("article.tabletitle")}
-                    value={this.state.titlesearch}
-                    className="filter-item"
-                    style={{ width: "200px" }}
-                    onChange={e => this.handleChange(e)}
-                    onKeyUp={() => this.handleFilter()}
-                  ></ReactStrap.Input>
                   <Can I="CanCreate" a="Article">
                     <ReactStrap.Button
                       color={Common.Colors.PRIMARY}
