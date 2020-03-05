@@ -2,7 +2,7 @@ import axios from "axios";
 import { store } from "../Store";
 
 const service = axios.create({
-  baseURL: process.env.REACT_BASE_API, // url = base url + request url
+  baseURL: process.env.REACT_APP_BASE_API, // url = base url + request url
   timeout: 5000
 });
 
