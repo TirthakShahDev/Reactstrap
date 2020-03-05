@@ -9,7 +9,7 @@ export interface IApplicationProps {
   loginAsync: (loginModel: ILoginState) => Promise<IAppAction>;
   login: (loginModel: ILoginState) => IAppAction;
   logout: () => IAppAction;
-  addError: (data: any) => IAppAction;
+  addError: (data: IErrorLog) => IAppAction;
   match: match<any>;
   location: any;
   history: any;

@@ -62,7 +62,7 @@ class App extends Component<IAppProps, IState> {
   }
 }
 const mapStateToProps = (state: AppState) => ({
-  userData: state.userData,
+  userData: state.UserData,
   errors : state.errorLog
 });
 const mapDispatchtoProps = (dispatch: Dispatch) =>

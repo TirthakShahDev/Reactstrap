@@ -44,7 +44,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   }
 
   componentDidMount() {
-    // throw new Error("assaddas");
     this.getArticlesasync();
   }
 

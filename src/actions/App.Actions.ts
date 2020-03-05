@@ -29,7 +29,7 @@ export const logout = (): IAppAction => {
   return { type: ActionType.LOGOUT_REQUEST };
 };
 
-export const addError = (data: IErrorLog[]): IAppAction => {
+export const addError = (data: IErrorLog): IAppAction => {
   return { type: ActionType.ERROR_LOG, payload: data };
 };
 

@@ -7,6 +7,7 @@ import { IApplicationProps } from "../Types/PropTypes";
 import { IErrorLogState } from "../Types/StateTypes";
 import { IAppAction } from "../actions/Helpers";
 import { IErrorLog } from "../state/ErrorLog";
+import { Redirect } from "react-router";
 
 class ErrorHook extends React.PureComponent<
   { addError: (data: IErrorLog) => IAppAction },
@@ -18,14 +19,14 @@ class ErrorHook extends React.PureComponent<
   }
 
   componentDidCatch(error: Error, errorInfo: any) {
-    debugger;
-    this.props.addError({ err: error, vm: "", info: errorInfo, url: "" });
+    this.setState({hasError : true})
+    this.props.addError({ err: error, info: errorInfo});
   }
 
   render() {
-    // console.log(this.props.addError)
+
     if (this.state.hasError) {
-      return <h1>Something went wrong.</h1>;
+      return <Redirect to='/login'></Redirect>;
     }
 
     return this.props.children;
