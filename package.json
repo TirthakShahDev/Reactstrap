@@ -38,6 +38,7 @@
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.4.0",
     "react-sizeme": "^2.6.12",
+    "react-toastify": "^5.5.0",
     "reactstrap": "^8.4.1",
     "reactstrap-confirm": "^1.2.0",
     "reactstrap-formik": "^1.0.9",

@@ -28,4 +28,5 @@ export interface ILoginProps extends IApplicationProps {
   usernameInputProps: any;
   passwordLabel: string;
   passwordInputProps: any;
+  dispatch : any;
 }

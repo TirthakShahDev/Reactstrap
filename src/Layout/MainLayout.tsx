@@ -2,6 +2,8 @@ import { Content, Footer, Sidebar } from "../Layout";
 import React from "react";
 import Header from "./Header";
 import { IAppAction } from "../actions/Helpers";
+import { ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 interface IMainLayoutProps {
   breakpoint: string;
   selected: [];
@@ -91,6 +93,7 @@ class MainLayout extends React.Component<IMainLayoutProps, IMainLayoutState> {
         <Content fluid onClick={this.handleContentClick}>
           <Header logout={this.props.logout} changeLanguage ={this.props.changeLanguage}/>
           {children}
+          <ToastContainer autoClose={2000} />
           <Footer />
         </Content>
       </main>

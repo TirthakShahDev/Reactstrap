@@ -11,8 +11,12 @@ import { IApplicationProps } from "./Types/PropTypes";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
 import ErrorHook from "./Components/ErrorHook";
+import { toast } from "react-toastify";
+
 import "./assets/styles/reduction.scss";
 import "../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
+import "react-toastify/dist/ReactToastify.css";
+
 
 const DashboardPage = React.lazy(() => import("./pages/DashboardPage"));
 const ArticlePage = React.lazy(() => import("./pages/ArticlePage"));
@@ -27,6 +31,8 @@ class App extends Component<IAppProps, IState> {
     this.state = { isOpen: false };
   }
   render() {
+    //Over Ride Window in this case with Toast
+    window.alert = toast
     return (
       <ErrorHook>
         <Switch>

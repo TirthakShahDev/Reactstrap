@@ -16,7 +16,10 @@ export const loginAsync = (loginModel: ILoginState) => {
         data.abilities = abilities;
         await dispatch(login(data));
       })
-      .catch(m => console.log(m))
+      .catch(m => {
+        debugger;
+        alert(m.toString())
+      })
       .finally();
   };
 };

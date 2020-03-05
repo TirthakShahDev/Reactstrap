@@ -31,5 +31,6 @@ export default {
     author: 'Author',
     reviewer: 'Reviewer',
     actions: 'Actions',
+    saveMessage : 'Article Save Successfully'
   }
 }

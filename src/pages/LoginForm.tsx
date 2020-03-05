@@ -3,7 +3,12 @@ import React from "react";
 import { Button, Form, FormGroup, Input, Label } from "reactstrap";
 import { ILoginProps } from "../Types/PropTypes";
 import { ILoginState } from "../Types/StateTypes";
-
+import { login as LoginUser } from "../api/users";
+import { connect } from "react-redux";
+import { login } from "../actions/App.Actions";
+import { RawRule } from "@casl/ability";
+import { ConvertAbility } from "../utils/AbilityConverter";
+import ability from "../abilityConfig/ability";
 
 class LoginForm extends React.Component<ILoginProps, ILoginState> {
   public static defaultProps: Partial<ILoginProps> = {
@@ -24,8 +29,8 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
   constructor(props: ILoginProps) {
     super(props);
     this.state = {
-      UserName: "",
-      PassWord: ""
+      UserName: "admin",
+      PassWord: "1111"
     };
   }
   handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
@@ -37,7 +42,18 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
   }
 
   handleSubmit = () => {
-    this.props.loginAsync(this.state).then(() => this.props.history.push('/'))
+    LoginUser(this.state)
+      .then(async ({ data }) => {
+        const abilities: RawRule[] = ConvertAbility(data.permissions);
+        ability.update(abilities);
+        data.abilities = abilities;
+        this.props.dispatch(login(data))
+        this.props.history.push('/')
+      })
+      .catch(m => {
+        alert(m.toString());
+      })
+      .finally();
   };
 
   render() {
@@ -89,4 +105,7 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
     );
   }
 }
-export default LoginForm;
+export default connect(
+  null,
+  null
+)(LoginForm);

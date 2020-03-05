@@ -20,6 +20,7 @@ import { Common } from "../Constants/Common";
 import { withTranslation } from "react-i18next";
 import { IArticleProps } from "../Types/PropTypes";
 import { IArticleState } from "../Types/StateTypes";
+import { toast } from "react-toastify";
 
 class ArticlePage extends React.Component<IArticleProps, IArticleState> {
   private list: IArticleData[] = [];
@@ -32,7 +33,9 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     type: undefined,
     sort: "+id"
   };
+
   static contextType = AbilityContext;
+
   constructor(props: Readonly<IApplicationProps>) {
     super(props);
     this.state = {
@@ -62,7 +65,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     });
   };
 
-  private toggle = () => {
+  private toggleModal = () => {
     this.setState({
       modal: !this.state.modal
     });
@@ -70,9 +73,11 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   private AddArticle = () => {
     this.mode = "Add";
-    this.toggle();
+    this.toggleModal();
   };
+
   private SaveArticle = () => {
+    const { t } = this.props;
     //Call API to do Server Data Changes
     this.setState(
       {
@@ -82,7 +87,8 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       },
       () => {
         this.state.articles.push(this.state.articleSelected);
-        this.toggle();
+        this.toggleModal();
+        toast.success(t("article.saveMessage"));
       }
     );
   };
@@ -107,7 +113,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     this.mode = "Edit";
     this.setState({ articleSelected: Object.assign({}, null) }, () => {
       this.setState({ articleSelected: Object.assign({}, row) });
-      this.toggle();
+      this.toggleModal();
     });
   }
 
@@ -122,6 +128,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     }
   }
 
+  //Common Handle Change for All Inputs
   private handleChange(evt: React.ChangeEvent<HTMLInputElement>) {
     const value = evt.target.value;
     this.setState({
@@ -131,6 +138,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
     });
   }
 
+  //Action Buttons Rendered From Here
   private actionButtons(
     cell: any,
     row: any,
@@ -163,7 +171,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   render() {
     const { t } = this.props;
-
     return this.context.can(Common.Actions.CAN_READ, Common.Modules.ARTICLE) ? (
       <Page
         title={t("article.title")}
@@ -261,10 +268,10 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
         </ReactStrap.Row>
         <ReactStrap.Modal
           isOpen={this.state.modal}
-          toggle={() => this.toggle()}
+          toggle={() => this.toggleModal()}
           onClosed={() => this.ResetModalData()}
         >
-          <ReactStrap.ModalHeader toggle={() => this.toggle()}>
+          <ReactStrap.ModalHeader toggle={() => this.toggleModal()}>
             {this.mode === Common.Modes.ADD
               ? t("permission.createArticle")
               : t("permission.editArticle")}
@@ -341,7 +348,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
             </ReactStrap.Button>{" "}
             <ReactStrap.Button
               color={Common.Colors.SECONDARY}
-              onClick={() => this.toggle()}
+              onClick={() => this.toggleModal()}
             >
               {t("permission.cancel")}
             </ReactStrap.Button>
