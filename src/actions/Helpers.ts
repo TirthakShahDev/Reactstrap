@@ -8,6 +8,7 @@ export enum ActionType {
     LOGOUT_SUCCESS,
     LOGOUT_FAIL,
     ERROR_LOG,
+    CLEAR_ERROR_LOG,
     TOGGLE_SIDEBAR,
     CHANGE_LANGUAGE
 }

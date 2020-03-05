@@ -26,11 +26,16 @@ export const login = (data: any): IAppAction => {
 };
 
 export const logout = (): IAppAction => {
+  removeError();
   return { type: ActionType.LOGOUT_REQUEST };
 };
 
 export const addError = (data: IErrorLog): IAppAction => {
   return { type: ActionType.ERROR_LOG, payload: data };
+};
+
+export const removeError = (): IAppAction => {
+  return { type: ActionType.CLEAR_ERROR_LOG };
 };
 
 export const changeLanguage = (language :string): IAppAction => {
