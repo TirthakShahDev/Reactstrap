@@ -7,6 +7,7 @@ import { IApplicationProps } from "../Types/PropTypes";
 import { IErrorLogState } from "../Types/StateTypes";
 import { IAppAction } from "../actions/Helpers";
 import { IErrorLog } from "../state/ErrorLog";
+import InternalServerErrorPage from "../pages/InternalServerErrorPage";
 // import { Redirect } from "react-router";
 
 class ErrorHook extends React.PureComponent<
@@ -25,7 +26,7 @@ class ErrorHook extends React.PureComponent<
 
   render() {
     if (this.state.hasError) {
-      return <></>;
+      return <InternalServerErrorPage />;
     }
 
     return this.props.children;
