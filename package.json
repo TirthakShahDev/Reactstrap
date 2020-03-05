@@ -51,7 +51,8 @@
     "yamljs": "^0.3.0",
     "yup": "^0.28.1"
   },
-  "proxy": "http://localhost:9999/mock-api/v1",
+  "proxy": "https://vue-typescript-admin-mock-server.armour.now.sh/mock-api/v1/",
+
   "scripts": {
     "start": "concurrently \"npm:mock\" \"react-scripts start\"",
     "build": "react-scripts build",
