@@ -7,12 +7,16 @@ export interface IErrorLog {
   url: string;
 }
 
-const ErrorModel = Model<IErrorLog>({
-  err: null,
-  vm: null,
-  info: null,
-  url: null
-});
+interface IErrors
+{
+  errors? : IErrorLog[]
+}
+
+const ErrorModel = Model<IErrors>(
+  {
+    errors : []
+  }
+);
 
 export class ErrorLog extends ErrorModel {
   public static ERRORS = "errors";

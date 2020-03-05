@@ -11,8 +11,8 @@ service.interceptors.request.use(
     // Add X-Access-Token header to every request, you can add other custom headers here
     const state = store.getState();
 
-    if (state.authentication && state.authentication.token) {
-      config.headers["X-Access-Token"] = state.authentication.token;
+    if (state.UserData && state.UserData.token) {
+      config.headers["X-Access-Token"] = state.UserData.token;
     }
     return config;
   },

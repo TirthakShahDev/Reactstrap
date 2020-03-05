@@ -13,10 +13,8 @@ export interface IApplicationProps {
   match: match<any>;
   location: any;
   history: any;
-  authentication: User;
-  users: any;
+  userData: User;
   errors: IErrorLog[];
-  toggleSideBar: () => IAppAction;
   sidebarOpen: boolean;
   changeLanguage: (language: any) => IAppAction;
 }

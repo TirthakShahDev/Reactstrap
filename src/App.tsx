@@ -10,6 +10,7 @@ import LoginPage from "./pages/LoginPage";
 import { IApplicationProps } from "./Types/PropTypes";
 import PageSpinner from "./Components/PageSpinner";
 import componentQueries from "react-component-queries";
+import ErrorHook from "./Components/ErrorHook";
 import "./assets/styles/reduction.scss";
 import "../node_modules/react-bootstrap-table/dist/react-bootstrap-table-all.min.css";
 
@@ -27,32 +28,42 @@ class App extends Component<IAppProps, IState> {
   }
   render() {
     return (
-      <Switch>
-        <LayoutRoute
-          exact
-          path="/login"
-          layout={EmptyLayout}
-          component={(props: IAppProps) => <LoginPage {...this.props} />}
-        />
-        <MainLayout breakpoint={this.props.breakpoint} selected={null} logout={this.props.logout} changeLanguage = {this.props.changeLanguage}>
-          <React.Suspense fallback={<PageSpinner />}>
-            <Route exact path="/" component={isAuthenticated(DashboardPage)} />
-            <Route
-              exact
-              path="/Articles"
-              component={isAuthenticated(ArticlePage)}
-            />
-          </React.Suspense>
-        </MainLayout>
-        <Redirect to="/login" />
-      </Switch>
+      <ErrorHook>
+        <Switch>
+          <LayoutRoute
+            exact
+            path="/login"
+            layout={EmptyLayout}
+            component={(props: IAppProps) => <LoginPage {...this.props} />}
+          />
+          <MainLayout
+            breakpoint={this.props.breakpoint}
+            selected={null}
+            logout={this.props.logout}
+            changeLanguage={this.props.changeLanguage}
+          >
+            <React.Suspense fallback={<PageSpinner />}>
+              <Route
+                exact
+                path="/"
+                component={isAuthenticated(DashboardPage)}
+              />
+              <Route
+                exact
+                path="/Articles"
+                component={isAuthenticated(ArticlePage)}
+              />
+            </React.Suspense>
+          </MainLayout>
+          <Redirect to="/login" />
+        </Switch>
+      </ErrorHook>
     );
   }
 }
 const mapStateToProps = (state: AppState) => ({
-  authentication: state.authentication,
-  users: state.users,
-  utility: state.utility
+  userData: state.userData,
+  errors : state.errorLog
 });
 const mapDispatchtoProps = (dispatch: Dispatch) =>
   bindActionCreators(_.assign({}, AppActionCreators), dispatch);

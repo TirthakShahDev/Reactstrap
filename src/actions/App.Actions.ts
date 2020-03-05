@@ -11,7 +11,7 @@ export const loginAsync = (loginModel: ILoginState) => {
   return function(dispatch: any) {
     return LoginUser(loginModel)
       .then(async ({ data }) => {
-        let abilities: RawRule[] = ConvertAbility(data.permissions);
+        const abilities: RawRule[] = ConvertAbility(data.permissions);
         ability.update(abilities);
         data.abilities = abilities;
         await dispatch(login(data));
@@ -31,10 +31,6 @@ export const logout = (): IAppAction => {
 
 export const addError = (data: IErrorLog[]): IAppAction => {
   return { type: ActionType.ERROR_LOG, payload: data };
-};
-
-export const toggleSideBar = (): IAppAction => {
-  return { type: ActionType.TOGGLE_SIDEBAR };
 };
 
 export const changeLanguage = (language :string): IAppAction => {

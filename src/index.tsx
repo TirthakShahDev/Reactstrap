@@ -5,7 +5,6 @@ import App from "./App";
 import * as serviceWorker from "./serviceWorker";
 import { Provider } from "react-redux";
 import { store } from "./Store";
-import { ErrorHook } from "./utils/ErrorHook";
 import { BrowserRouter as Router } from "react-router-dom";
 import { AbilityContext } from './abilityConfig/ability-context'
 import ability from './abilityConfig/ability'
@@ -17,9 +16,7 @@ ReactDOM.render(
   <AbilityContext.Provider value={ability}>
     <Provider store={store}>
       <Router>
-        <ErrorHook>
           <App />
-        </ErrorHook>
       </Router>
     </Provider>
   </AbilityContext.Provider>,

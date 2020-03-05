@@ -22,7 +22,7 @@ const resources = {
 i18n
   .use(initReactI18next)
   .init({
-    fallbackLng: state.authentication?.language ? state.authentication.language : 'en',
+    fallbackLng: state.UserData?.language ? state.UserData.language : 'en',
     debug: false,
     resources,
     interpolation: {

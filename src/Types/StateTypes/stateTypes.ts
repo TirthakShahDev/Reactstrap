@@ -16,3 +16,7 @@ export interface ILoginState {
   UserName: string;
   PassWord: string;
 }
+
+export interface IErrorLogState {
+  hasError: boolean;
+}
