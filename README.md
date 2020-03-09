@@ -16,3 +16,11 @@ Steps to run Application
 
 1. `npm install`
 2. `npm run start`
+
+
+## Login Credentials
+__User :__ admin 
+__Password :__ admin
+
+__User :__ editor
+__Password :__ editor
