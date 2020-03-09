@@ -15,6 +15,7 @@ import { FaPencilAlt, FaTrash } from "react-icons/fa";
 import { defaultArticleData } from "../api/articles";
 import _ from "lodash";
 import { Can, AbilityContext } from "../abilityConfig/ability-context";
+import ability from "../abilityConfig/ability";
 import AccessDenied from "./AccessDenied";
 import { Common } from "../Constants/Common";
 import { withTranslation } from "react-i18next";
@@ -41,6 +42,9 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       articles: [],
       modal: false,
       articleSelected: defaultArticleData,
+      isActionHeaderAvailable:
+        ability.can(Common.Actions.CAN_UPDATE, Common.Modules.ARTICLE) ||
+        ability.can(Common.Actions.CAN_DELETE, Common.Modules.ARTICLE)
     };
   }
 
@@ -76,7 +80,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   private SaveArticle = () => {
     const { t } = this.props;
-    
+
     //Call API to do Server Data Changes
     this.setState(
       {
@@ -87,7 +91,11 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       () => {
         this.state.articles.push(this.state.articleSelected);
         this.toggleModal();
-        toast.success(this.mode === 'Add' ? t("article.saveMessage") : t("article.updateMessage"));
+        toast.success(
+          this.mode === "Add"
+            ? t("article.saveMessage")
+            : t("article.updateMessage")
+        );
       }
     );
   };
@@ -126,7 +134,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
       //Call API to do Server Data Changes
       let articleList = this.state.articles.filter(m => m.id !== row.id);
       this.setState({ articles: articleList });
-      toast.warn(t('article.deleteMessage'))
+      toast.warn(t("article.deleteMessage"));
     }
   }
 
@@ -247,7 +255,7 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
                   >
                     {t("article.reviewer")}
                   </TableHeaderColumn>
-                  <TableHeaderColumn
+                  <TableHeaderColumn hidden ={!this.state.isActionHeaderAvailable}
                     dataField="button"
                     dataAlign="center"
                     dataFormat={this.actionButtons.bind(this)}

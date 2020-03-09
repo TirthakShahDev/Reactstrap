@@ -10,6 +10,7 @@ export interface IArticleState {
   modal: boolean;
   articleSelected?: IArticleData;
   titlesearch: string;
+  isActionHeaderAvailable : boolean
 }
 
 export interface ILoginState {

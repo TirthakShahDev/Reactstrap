@@ -17,7 +17,6 @@ export const loginAsync = (loginModel: ILoginState) => {
         await dispatch(login(data));
       })
       .catch(m => {
-        debugger;
         alert(m.toString())
       })
       .finally();
