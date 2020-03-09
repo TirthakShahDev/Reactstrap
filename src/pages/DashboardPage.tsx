@@ -6,24 +6,23 @@ import { Common } from "../Constants/Common";
 import { withTranslation } from "react-i18next";
 import { TFunction } from "i18next";
 import { Formik, Field } from "formik";
-import { ReactstrapInput } from "reactstrap-formik";
-import {ValidationFormSchema} from '../ValidationSchemas/ValidationFormSchema'
 import {
-  Row,
-  Col,
-  Card,
-  CardHeader,
-  CardBody,
-  Button
-} from "reactstrap";
-import {IValidationFormState} from '../Types/StateTypes'
+  ReactstrapInput,
+  ReactstrapSelect
+} from "reactstrap-formik";
+import { ValidationFormSchema } from "../ValidationSchemas/ValidationFormSchema";
+import { Row, Col, Card, CardHeader, CardBody, Button } from "reactstrap";
+import { IValidationFormState } from "../Types/StateTypes";
 
-class DashboardPage extends React.Component<{ t: TFunction },IValidationFormState> {
-
-  private initialState : IValidationFormState= {
-    email : '',
-    password : ''
-  }
+class DashboardPage extends React.Component<
+  { t: TFunction },
+  IValidationFormState
+> {
+  private initialState: IValidationFormState = {
+    email: "",
+    password: "",
+    country: ""
+  };
 
   static contextType = AbilityContext;
   render() {
@@ -73,6 +72,17 @@ class DashboardPage extends React.Component<{ t: TFunction },IValidationFormStat
                           id="password"
                           component={ReactstrapInput}
                         />
+                        <Field
+                          label="Country"
+                          name="country"
+                          component={ReactstrapSelect}
+                          inputprops={{
+                            name: "country",
+                            id: "country",
+                            options: ["India", "USA", "UK", "Saudi Arabia"],
+                            defaultOption: ""
+                          }}
+                        />
                         <Button
                           type="button"
                           className="outline"
@@ -80,12 +90,10 @@ class DashboardPage extends React.Component<{ t: TFunction },IValidationFormStat
                           disabled={!dirty || isSubmitting}
                         >
                           Reset
-                        </Button>
-                        {' '}
+                        </Button>{" "}
                         <Button type="submit" disabled={isSubmitting}>
                           Submit
                         </Button>
-
                         <pre
                           style={{
                             background: "#f6f8fa",
