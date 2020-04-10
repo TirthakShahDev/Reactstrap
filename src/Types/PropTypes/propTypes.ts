@@ -17,6 +17,8 @@ export interface IApplicationProps {
   errors: IErrorLog[];
   sidebarOpen: boolean;
   changeLanguage: (language: any) => IAppAction;
+
+  t: TFunction;
 }
 
 export interface IArticleProps extends IApplicationProps {

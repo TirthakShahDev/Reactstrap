@@ -10,7 +10,6 @@ export interface IArticleState {
   articles: IArticleData[];
   modal: boolean;
   articleSelected?: IArticleData;
-  titlesearch: string;
   isActionHeaderAvailable: boolean;
 }
 

@@ -36,6 +36,8 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   static contextType = AbilityContext;
 
+  
+
   constructor(props: Readonly<IApplicationProps>) {
     super(props);
     this.state = {
@@ -102,7 +104,6 @@ class ArticlePage extends React.Component<IArticleProps, IArticleState> {
 
   private handleFilter() {
     this.listQuery.page = 1;
-    this.listQuery.title = this.state.titlesearch;
     this.getArticlesasync();
   }
 
