@@ -50,11 +50,9 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
 
   componentDidMount()
   {
-    document.addEventListener("message", function(event:any) {
-      alert(event.data);
-     })
+   
     window.addEventListener("message", function(event) {
-alert("This is a Entry Point Working in iOS");
+
 alert(event.data)
 });
   };
