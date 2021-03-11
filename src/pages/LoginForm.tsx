@@ -42,7 +42,7 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
   }
 
   handleClick = (event: any) => {
-    window.ReactNativeWebView.postMessage(JSON.stringify({'data': 'Tirthak'}));
+    window.ReactNativeWebView.postMessage(JSON.stringify({'data': 'Settings'}));
   };
 
 
