@@ -84,47 +84,14 @@ alert(event.data)
 
     return (
       <Form onSubmit={this.handleSubmit}>
-        <div className="text-center pb-4">
-          <img
-            src={logo200Image}
-            className="rounded"
-            style={{ width: 60, height: 60, cursor: "pointer" }}
-            alt="logo"
-          />
-        </div>
-        <FormGroup>
-          <Label for={usernameLabel}>{usernameLabel}</Label>
-          <Input
-            {...usernameInputProps}
-            value={this.state.UserName}
-            onChange={event => this.handleChange(event)}
-          />
-        </FormGroup>
-        <FormGroup>
-          <Label for={passwordLabel}>{passwordLabel}</Label>
-          <Input
-            {...passwordInputProps}
-            value={this.state.PassWord}
-            onChange={event => this.handleChange(event)}
-          />
-        </FormGroup>
-        <hr />
-        <Button
-          size="lg"
-          className="bg-gradient-theme-left border-0"
-          block
-          onClick={this.handleSubmit}
-        >
-          Login
-        </Button>
-        
+      
         <Button
           size="lg"
           className="bg-gradient-theme-left border-0"
           block
           onClick={this.handleClick}
         >
-          CLick ME
+          Settings
         </Button>
         {children}
       </Form>
