@@ -51,7 +51,7 @@ class LoginForm extends React.Component<ILoginProps, ILoginState> {
   componentDidMount()
   {
    
-    window.addEventListener("message", function(event) {
+    document.addEventListener("message", function(event) {
 
 alert(event.data)
 });
